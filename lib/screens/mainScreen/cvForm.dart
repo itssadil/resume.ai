@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/consts.dart';
-import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
 import 'package:resumeai/widgets/cvSteps/step1.dart';
+import 'package:resumeai/widgets/cvSteps/step2.dart';
 import 'package:resumeai/widgets/cvSteps/step3.dart';
 
 class CvForm extends StatefulWidget {
@@ -53,8 +53,8 @@ class _CvFormState extends State<CvForm> {
                   value.continueStep();
                 }
 
-                final addProfileValue =
-                    Provider.of<ProfileLinkProvider>(context, listen: false);
+                // final addProfileValue =
+                //     Provider.of<ProfileLinkProvider>(context, listen: false);
                 // if (value.currentStep == 1) {
                 //   addProfileValue.addProfile();
                 // }
@@ -109,7 +109,7 @@ class _CvFormState extends State<CvForm> {
         state: currentStep > 1 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 1,
         title: const Text("Skills"),
-        content: Step3(),
+        content: Step2(),
       ),
       Step(
         state: currentStep > 2 ? StepState.complete : StepState.indexed,
