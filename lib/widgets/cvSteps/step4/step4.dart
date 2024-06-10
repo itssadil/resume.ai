@@ -1,42 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:resumeai/providers/addExperienceProvider.dart';
+import 'package:resumeai/providers/addEducationProvider.dart';
 import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/widgets/addBtn.dart';
 import 'package:resumeai/widgets/addOption.dart';
 
-class Step3 extends StatefulWidget {
-  const Step3({Key? key}) : super(key: key);
+class Step4 extends StatefulWidget {
+  const Step4({Key? key}) : super(key: key);
 
   @override
-  State<Step3> createState() => _Step3State();
+  State<Step4> createState() => _Step4State();
 }
 
-class _Step3State extends State<Step3> {
+class _Step4State extends State<Step4> {
   @override
   Widget build(BuildContext context) {
-    final TextEditingController jobTitleController = TextEditingController();
-    final TextEditingController companyNameController = TextEditingController();
-    final TextEditingController locationController = TextEditingController();
     return Column(
       children: [
-        Consumer<AddExperienceProvider>(
+        Consumer<AddEducationProvider>(
           builder: (context, value, child) {
             return AddOption(
-              itemCount: value.jobTitleController.length,
-              whoIs: "step2",
-              jobTitleController: value.jobTitleController,
-              companyNameController: value.companyNameController,
-              locationController: value.locationController,
+              itemCount: value.studyTitleController.length,
+              whoIs: "step4",
+              studyTitleController: value.studyTitleController,
+              universityNameController: value.universityNameController,
             );
           },
         ),
-        Consumer<AddExperienceProvider>(
+        Consumer<AddEducationProvider>(
           builder: (context, value, child) {
             return CustomAddButton(
               onPressed: () {
-                for (var item in value.jobTitleController) {
-                  print(item);
+                for (var item in value.studyTitleController) {
+                  print(item.text);
                 }
                 // currentProfile.addProfile();
 
@@ -48,7 +44,7 @@ class _Step3State extends State<Step3> {
 
                 employmentDate.nullValue();
               },
-              title: "Add Experience",
+              title: "Add Education",
             );
           },
         ),

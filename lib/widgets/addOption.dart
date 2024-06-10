@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:resumeai/widgets/cvSteps/stepsUI/addExperience.dart';
-import 'package:resumeai/widgets/cvSteps/stepsUI/profileLinkes.dart';
+import 'package:resumeai/widgets/cvSteps/step1/profileLinkes.dart';
+import 'package:resumeai/widgets/cvSteps/step3/addExperience.dart';
+import 'package:resumeai/widgets/cvSteps/step4/addEducation.dart';
 
 class AddOption extends StatefulWidget {
   AddOption({
     Key? key,
     required this.itemCount,
+    required this.whoIs,
     this.urlControllers,
     this.urlNameControllers,
     this.jobTitleController,
     this.companyNameController,
     this.locationController,
-    required this.whoIs,
+    this.studyTitleController,
+    this.universityNameController,
   }) : super(key: key);
 
   final int itemCount;
@@ -21,6 +24,8 @@ class AddOption extends StatefulWidget {
   List<TextEditingController>? jobTitleController;
   List<TextEditingController>? companyNameController;
   List<TextEditingController>? locationController;
+  List<TextEditingController>? studyTitleController;
+  List<TextEditingController>? universityNameController;
 
   @override
   State<AddOption> createState() => _AddOptionState();
@@ -47,8 +52,14 @@ class _AddOptionState extends State<AddOption> {
               locationController: widget.locationController![index],
               index: index,
             );
+          case "step4":
+            return AddEducation(
+              studyTitleController: widget.studyTitleController![index],
+              universityNameController: widget.universityNameController![index],
+              index: index,
+            );
           default:
-            return Container();
+            return const CircularProgressIndicator();
         }
       },
     );

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:resumeai/providers/addEducationProvider.dart';
 import 'package:resumeai/providers/addExperienceProvider.dart';
 import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
-import 'package:resumeai/screens/homeScreen/homeScreen.dart';
+import 'package:resumeai/screens/homeScreen.dart';
 
 const apiKey = "AIzaSyAFRNqPSeiWDOOI9GEyik2d9H00_z_ItTk";
 
@@ -15,6 +16,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => ProfileLinkProvider()),
       ChangeNotifierProvider(create: (context) => EmploymentDateProvider()),
       ChangeNotifierProvider(create: (context) => AddExperienceProvider()),
+      ChangeNotifierProvider(create: (context) => AddEducationProvider()),
     ],
     child: MyApp(),
   ));

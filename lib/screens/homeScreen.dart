@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resumeai/screens/mainScreen/cvForm.dart';
+import 'package:resumeai/screens/cvForm.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

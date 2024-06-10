@@ -3,9 +3,10 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/consts.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
-import 'package:resumeai/widgets/cvSteps/step1.dart';
+import 'package:resumeai/widgets/cvSteps/step1/step1.dart';
 import 'package:resumeai/widgets/cvSteps/step2.dart';
-import 'package:resumeai/widgets/cvSteps/step3.dart';
+import 'package:resumeai/widgets/cvSteps/step3/step3.dart';
+import 'package:resumeai/widgets/cvSteps/step4/step4.dart';
 
 class CvForm extends StatefulWidget {
   const CvForm({Key? key}) : super(key: key);
@@ -40,7 +41,7 @@ class _CvFormState extends State<CvForm> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Consumer<StepperProvider>(
           builder: (context, value, child) {
             return Stepper(
@@ -66,7 +67,7 @@ class _CvFormState extends State<CvForm> {
                 final isLastStep = value.currentStep ==
                     getStep(currentStep: value.currentStep).length - 1;
                 return Container(
-                  margin: EdgeInsets.only(top: 50),
+                  margin: const EdgeInsets.only(top: 50),
                   child: Row(
                     children: [
                       ElevatedButton(
@@ -103,25 +104,25 @@ class _CvFormState extends State<CvForm> {
         state: currentStep > 0 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 0,
         title: const Text("Personal Details"),
-        content: Step1(),
+        content: const Step1(),
       ),
       Step(
         state: currentStep > 1 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 1,
         title: const Text("Skills"),
-        content: Step2(),
+        content: const Step2(),
       ),
       Step(
         state: currentStep > 2 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 2,
         title: const Text("Experience"),
-        content: Step3(),
+        content: const Step3(),
       ),
       Step(
         state: currentStep > 3 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 3,
         title: const Text("Education"),
-        content: Container(),
+        content: const Step4(),
       ),
       Step(
         state: currentStep > 4 ? StepState.complete : StepState.indexed,
