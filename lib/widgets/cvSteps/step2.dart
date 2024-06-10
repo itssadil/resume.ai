@@ -14,7 +14,7 @@ class Step2 extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(8),
             child: Text(
-              "Split your skills using ',' comma",
+              "Separate your skills using ' , ' commas. We will describe them briefly.",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
