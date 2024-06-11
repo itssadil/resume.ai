@@ -6,6 +6,7 @@ import 'package:resumeai/providers/addLanguageProvider.dart';
 import 'package:resumeai/providers/addProjectProvider.dart';
 import 'package:resumeai/providers/addReferenceProvider.dart';
 import 'package:resumeai/providers/addTrainingProvider.dart';
+import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
 import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
@@ -25,6 +26,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => AddLanguageProvider()),
       ChangeNotifierProvider(create: (context) => AddReferenceProvider()),
       ChangeNotifierProvider(create: (context) => AddProjectProvider()),
+      ChangeNotifierProvider(create: (context) => AdditionalOptionProvider()),
     ],
     child: const MyApp(),
   ));

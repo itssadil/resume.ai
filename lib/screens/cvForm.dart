@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/consts.dart';
+import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
 import 'package:resumeai/widgets/cvSteps/AdditionalSteps/step1/step1.dart';
@@ -72,25 +73,50 @@ class _CvFormState extends State<CvForm> {
                         getStep(currentStep: value.currentStep).length - 1;
                     return Container(
                       margin: const EdgeInsets.only(top: 50),
-                      child: Row(
-                        children: [
-                          ElevatedButton(
-                            onPressed: () => details.onStepContinue!(),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
+                      child: Consumer<AdditionalOptionProvider>(
+                        builder: (context, isAddValue, child) {
+                          return Visibility(
+                            visible: !isAddValue.isAddValue,
+                            child: Row(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () => details.onStepContinue!(),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                  ),
+                                  child: Text(
+                                    isLastStep ? "Submit" : "Next",
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                if (value.currentStep != 0)
+                                  ElevatedButton(
+                                    onPressed: details.onStepCancel,
+                                    child: const Text("Back"),
+                                  ),
+                                const SizedBox(width: 10),
+                                if (isLastStep)
+                                  ElevatedButton.icon(
+                                    onPressed: () {
+                                      isAddValue.isAdd(!isAddValue.isAddValue);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.black,
+                                    ),
+                                    icon: Icon(
+                                      Icons.add_box,
+                                      color: Colors.white,
+                                    ),
+                                    label: const Text(
+                                      "Additional Options",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                              ],
                             ),
-                            child: Text(
-                              isLastStep ? "Submit" : "Next",
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          if (value.currentStep != 0)
-                            ElevatedButton(
-                              onPressed: details.onStepCancel,
-                              child: const Text("Back"),
-                            ),
-                        ],
+                          );
+                        },
                       ),
                     );
                   },
@@ -98,53 +124,61 @@ class _CvFormState extends State<CvForm> {
                 );
               },
             ),
-            Consumer<AdditionalStepperProvider>(
+            Consumer<AdditionalOptionProvider>(
               builder: (context, value, child) {
-                return Stepper(
-                  currentStep: value.currentStep,
-                  onStepContinue: () {
-                    final isLastStep = value.currentStep ==
-                        additionalGetStep(currentStep: value.currentStep)
-                                .length -
-                            1;
-                    if (isLastStep) {
-                    } else {
-                      value.continueStep();
-                    }
-                  },
-                  onStepCancel: () {
-                    value.currentStep == 0 ? null : value.cancelStep();
-                  },
-                  controlsBuilder: (context, details) {
-                    final isLastStep = value.currentStep ==
-                        additionalGetStep(currentStep: value.currentStep)
-                                .length -
-                            1;
-                    return Container(
-                      margin: const EdgeInsets.only(top: 50),
-                      child: Row(
-                        children: [
-                          ElevatedButton(
-                            onPressed: () => details.onStepContinue!(),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
+                return Visibility(
+                  visible: value.isAddValue,
+                  child: Consumer<AdditionalStepperProvider>(
+                    builder: (context, value, child) {
+                      return Stepper(
+                        currentStep: value.currentStep,
+                        onStepContinue: () {
+                          final isLastStep = value.currentStep ==
+                              additionalGetStep(currentStep: value.currentStep)
+                                      .length -
+                                  1;
+                          if (isLastStep) {
+                          } else {
+                            value.continueStep();
+                          }
+                        },
+                        onStepCancel: () {
+                          value.currentStep == 0 ? null : value.cancelStep();
+                        },
+                        controlsBuilder: (context, details) {
+                          final isLastStep = value.currentStep ==
+                              additionalGetStep(currentStep: value.currentStep)
+                                      .length -
+                                  1;
+                          return Container(
+                            margin: const EdgeInsets.only(top: 50),
+                            child: Row(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () => details.onStepContinue!(),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green,
+                                  ),
+                                  child: Text(
+                                    isLastStep ? "Submit" : "Next",
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                if (value.currentStep != 0)
+                                  ElevatedButton(
+                                    onPressed: details.onStepCancel,
+                                    child: const Text("Back"),
+                                  ),
+                              ],
                             ),
-                            child: Text(
-                              isLastStep ? "Submit" : "Next",
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          if (value.currentStep != 0)
-                            ElevatedButton(
-                              onPressed: details.onStepCancel,
-                              child: const Text("Back"),
-                            ),
-                        ],
-                      ),
-                    );
-                  },
-                  steps: additionalGetStep(currentStep: value.currentStep),
+                          );
+                        },
+                        steps:
+                            additionalGetStep(currentStep: value.currentStep),
+                      );
+                    },
+                  ),
                 );
               },
             ),
