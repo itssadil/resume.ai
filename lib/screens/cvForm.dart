@@ -7,6 +7,7 @@ import 'package:resumeai/widgets/cvSteps/step1/step1.dart';
 import 'package:resumeai/widgets/cvSteps/step2.dart';
 import 'package:resumeai/widgets/cvSteps/step3/step3.dart';
 import 'package:resumeai/widgets/cvSteps/step4/step4.dart';
+import 'package:resumeai/widgets/cvSteps/step5/step5.dart';
 
 class CvForm extends StatefulWidget {
   const CvForm({Key? key}) : super(key: key);
@@ -20,6 +21,9 @@ class _CvFormState extends State<CvForm> {
 
   final model =
       GenerativeModel(model: "gemini-1.5-flash-latest", apiKey: GEMINI_API_KEY);
+
+  // Note: For your API key, please create a file named consts.dart inside the lib folder and add the following line:
+  // const String GEMINI_API_KEY = "YOUR_API_KEY";
 
   String getResponse = "";
 
@@ -128,7 +132,7 @@ class _CvFormState extends State<CvForm> {
         state: currentStep > 4 ? StepState.complete : StepState.indexed,
         isActive: currentStep >= 4,
         title: const Text("Additional Training"),
-        content: Container(),
+        content: const Step5(),
       ),
       Step(
         state: currentStep > 5 ? StepState.complete : StepState.indexed,

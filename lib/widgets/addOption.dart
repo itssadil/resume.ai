@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:resumeai/widgets/cvSteps/step1/profileLinkes.dart';
 import 'package:resumeai/widgets/cvSteps/step3/addExperience.dart';
 import 'package:resumeai/widgets/cvSteps/step4/addEducation.dart';
+import 'package:resumeai/widgets/cvSteps/step5/addTraining.dart';
 
 class AddOption extends StatefulWidget {
   AddOption({
@@ -15,6 +16,8 @@ class AddOption extends StatefulWidget {
     this.locationController,
     this.studyTitleController,
     this.universityNameController,
+    this.trainingTitleController,
+    this.instituteNameController,
   }) : super(key: key);
 
   final int itemCount;
@@ -26,6 +29,8 @@ class AddOption extends StatefulWidget {
   List<TextEditingController>? locationController;
   List<TextEditingController>? studyTitleController;
   List<TextEditingController>? universityNameController;
+  List<TextEditingController>? trainingTitleController;
+  List<TextEditingController>? instituteNameController;
 
   @override
   State<AddOption> createState() => _AddOptionState();
@@ -56,6 +61,12 @@ class _AddOptionState extends State<AddOption> {
             return AddEducation(
               studyTitleController: widget.studyTitleController![index],
               universityNameController: widget.universityNameController![index],
+              index: index,
+            );
+          case "step5":
+            return AddTraining(
+              trainingTitleController: widget.trainingTitleController![index],
+              instituteNameController: widget.instituteNameController![index],
               index: index,
             );
           default:

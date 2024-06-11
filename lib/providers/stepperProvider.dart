@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StepperProvider with ChangeNotifier {
-  int _currentStep = 3;
+  int _currentStep = 5;
   int get currentStep => _currentStep;
 
   void continueStep() {
