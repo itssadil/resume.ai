@@ -5,14 +5,14 @@ import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/widgets/addBtn.dart';
 import 'package:resumeai/widgets/addOption.dart';
 
-class Step5 extends StatefulWidget {
-  const Step5({Key? key}) : super(key: key);
+class AdditionalStep1 extends StatefulWidget {
+  const AdditionalStep1({Key? key}) : super(key: key);
 
   @override
-  State<Step5> createState() => _Step5State();
+  State<AdditionalStep1> createState() => _AdditionalStep1State();
 }
 
-class _Step5State extends State<Step5> {
+class _AdditionalStep1State extends State<AdditionalStep1> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -21,7 +21,7 @@ class _Step5State extends State<Step5> {
           builder: (context, value, child) {
             return AddOption(
               itemCount: value.trainingTitleController.length,
-              whoIs: "step5",
+              whoIs: "additionalStep1",
               trainingTitleController: value.trainingTitleController,
               instituteNameController: value.instituteNameController,
             );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:resumeai/widgets/cvSteps/additionalSteps/step1/addTraining.dart';
+import 'package:resumeai/widgets/cvSteps/additionalSteps/step3/addReference.dart';
+import 'package:resumeai/widgets/cvSteps/additionalSteps/step4/addProject.dart';
 import 'package:resumeai/widgets/cvSteps/step1/profileLinkes.dart';
 import 'package:resumeai/widgets/cvSteps/step3/addExperience.dart';
 import 'package:resumeai/widgets/cvSteps/step4/addEducation.dart';
-import 'package:resumeai/widgets/cvSteps/step5/addTraining.dart';
 
 class AddOption extends StatefulWidget {
   AddOption({
@@ -18,6 +20,12 @@ class AddOption extends StatefulWidget {
     this.universityNameController,
     this.trainingTitleController,
     this.instituteNameController,
+    this.languageController,
+    this.referenceOptionController,
+    this.referenceController,
+    this.projectTitleController,
+    this.roleController,
+    this.descriptionController,
   }) : super(key: key);
 
   final int itemCount;
@@ -31,6 +39,12 @@ class AddOption extends StatefulWidget {
   List<TextEditingController>? universityNameController;
   List<TextEditingController>? trainingTitleController;
   List<TextEditingController>? instituteNameController;
+  List<TextEditingController>? languageController;
+  List<TextEditingController>? referenceOptionController;
+  List<TextEditingController>? referenceController;
+  List<TextEditingController>? projectTitleController;
+  List<TextEditingController>? roleController;
+  List<TextEditingController>? descriptionController;
 
   @override
   State<AddOption> createState() => _AddOptionState();
@@ -50,7 +64,7 @@ class _AddOptionState extends State<AddOption> {
               urlController: widget.urlControllers![index],
               urlNameController: widget.urlNameControllers![index],
             );
-          case "step2":
+          case "step3":
             return AddExperience(
               jobTitleController: widget.jobTitleController![index],
               companyNameController: widget.companyNameController![index],
@@ -63,14 +77,32 @@ class _AddOptionState extends State<AddOption> {
               universityNameController: widget.universityNameController![index],
               index: index,
             );
-          case "step5":
+          case "additionalStep3":
+            return AddReference(
+              referenceOptionController:
+                  widget.referenceOptionController![index],
+              referenceController: widget.referenceController![index],
+              index: index,
+            );
+          case "additionalStep1":
             return AddTraining(
               trainingTitleController: widget.trainingTitleController![index],
               instituteNameController: widget.instituteNameController![index],
               index: index,
             );
+          case "additionalStep4":
+            return AddProject(
+              projectTitleController: widget.projectTitleController![index],
+              roleController: widget.roleController![index],
+              descriptionController: widget.descriptionController![index],
+              index: index,
+            );
           default:
-            return const CircularProgressIndicator();
+            return const Center(
+                child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: CircularProgressIndicator(),
+            ));
         }
       },
     );

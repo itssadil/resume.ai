@@ -1,39 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:resumeai/providers/addExperienceProvider.dart';
+import 'package:resumeai/providers/addProjectProvider.dart';
 import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/widgets/addBtn.dart';
 import 'package:resumeai/widgets/addOption.dart';
 
-class Step3 extends StatefulWidget {
-  const Step3({Key? key}) : super(key: key);
+class AdditionalStep4 extends StatefulWidget {
+  const AdditionalStep4({Key? key}) : super(key: key);
 
   @override
-  State<Step3> createState() => _Step3State();
+  State<AdditionalStep4> createState() => _AdditionalStep4State();
 }
 
-class _Step3State extends State<Step3> {
+class _AdditionalStep4State extends State<AdditionalStep4> {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Consumer<AddExperienceProvider>(
+        Consumer<AddProjectProvider>(
           builder: (context, value, child) {
             return AddOption(
-              itemCount: value.jobTitleController.length,
-              whoIs: "step3",
-              jobTitleController: value.jobTitleController,
-              companyNameController: value.companyNameController,
-              locationController: value.locationController,
+              itemCount: value.projectTitleController.length,
+              whoIs: "additionalStep4",
+              projectTitleController: value.projectTitleController,
+              roleController: value.roleController,
+              descriptionController: value.descriptionController,
             );
           },
         ),
-        Consumer<AddExperienceProvider>(
+        Consumer<AddProjectProvider>(
           builder: (context, value, child) {
             return CustomAddButton(
               onPressed: () {
-                for (var item in value.jobTitleController) {
-                  print(item);
+                for (var item in value.projectTitleController) {
+                  print(item.text);
                 }
                 // currentProfile.addProfile();
 
@@ -45,7 +45,7 @@ class _Step3State extends State<Step3> {
 
                 employmentDate.nullValue();
               },
-              title: "Add Experience",
+              title: "Add Project",
             );
           },
         ),

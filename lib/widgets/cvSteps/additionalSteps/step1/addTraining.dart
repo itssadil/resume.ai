@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:resumeai/providers/addExperienceProvider.dart';
+import 'package:resumeai/providers/addTrainingProvider.dart';
 import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/widgets/customTextField.dart';
 
-class AddExperience extends StatelessWidget {
-  AddExperience({
+class AddTraining extends StatelessWidget {
+  AddTraining({
     Key? key,
-    required this.jobTitleController,
-    required this.companyNameController,
-    required this.locationController,
+    required this.trainingTitleController,
+    required this.instituteNameController,
     required this.index,
   }) : super(key: key);
-  final TextEditingController jobTitleController;
-  final TextEditingController companyNameController;
-  final TextEditingController locationController;
+  final TextEditingController trainingTitleController;
+  final TextEditingController instituteNameController;
   final int index;
 
   @override
@@ -33,12 +31,12 @@ class AddExperience extends StatelessWidget {
         final employmentDateProvider =
             Provider.of<EmploymentDateProvider>(context, listen: false);
 
-        // final addExperienceProvider =
-        //     Provider.of<AddExperienceProvider>(context, listen: false);
+        // final addEducationProvider =
+        //     Provider.of<AddEducationProvider>(context, listen: false);
         //
         // isFromDate
-        //     ? addExperienceProvider.addFromTime(pickedDate)
-        //     : addExperienceProvider.addToTime(pickedDate);
+        //     ? addEducationProvider.addFromTime(pickedDate)
+        //     : addEducationProvider.addToTime(pickedDate);
 
         employmentDateProvider.changeDate(isFromDate, pickedDate);
 
@@ -63,18 +61,13 @@ class AddExperience extends StatelessWidget {
     return Column(
       children: [
         CustomTextField(
-          controller: jobTitleController,
-          labelText: "Job Title",
+          controller: trainingTitleController,
+          labelText: "Title",
           maxLines: 1,
         ),
         CustomTextField(
-          controller: companyNameController,
-          labelText: "Company Name",
-          maxLines: 1,
-        ),
-        CustomTextField(
-          controller: locationController,
-          labelText: "Location(Optional)",
+          controller: instituteNameController,
+          labelText: "Institute Name",
           maxLines: 1,
         ),
         Padding(
@@ -83,12 +76,12 @@ class AddExperience extends StatelessWidget {
             alignment: Alignment.topLeft,
             child: Consumer<EmploymentDateProvider>(
               builder: (context, value, child) {
-                return Consumer<AddExperienceProvider>(
+                return Consumer<AddTrainingProvider>(
                   builder: (context, addExValue, child) {
                     return Wrap(
                       children: [
                         const Text(
-                          "Dates of employment",
+                          "Dates Attended",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -98,14 +91,14 @@ class AddExperience extends StatelessWidget {
                         SizedBox(width: 10),
                         ElevatedButton(
                           onPressed: () => _selectDate(context, true),
-                          child: addExValue.employmentFromDate.length >=
+                          child: addExValue.trainingFromDate.length >=
                                       index + 1 &&
-                                  addExValue.employmentFromDate.isNotEmpty &&
-                                  _formatDate(addExValue
-                                          .employmentFromDate[index]) !=
+                                  addExValue.trainingFromDate.isNotEmpty &&
+                                  _formatDate(
+                                          addExValue.trainingFromDate[index]) !=
                                       "01-01-3030"
                               ? Text(_formatDate(
-                                  addExValue.employmentFromDate[index]))
+                                  addExValue.trainingFromDate[index]))
                               : value.fromDate != null
                                   ? Text(_formatDate(value.fromDate!))
                                   : const Text('From'),
@@ -113,14 +106,14 @@ class AddExperience extends StatelessWidget {
                         SizedBox(width: 10),
                         ElevatedButton(
                           onPressed: () => _selectDate(context, false),
-                          child: addExValue.employmentToDate.length >=
+                          child: addExValue.trainingToDate.length >=
                                       index + 1 &&
-                                  addExValue.employmentToDate.isNotEmpty &&
+                                  addExValue.trainingToDate.isNotEmpty &&
                                   _formatDate(
-                                          addExValue.employmentToDate[index]) !=
+                                          addExValue.trainingToDate[index]) !=
                                       "01-01-3030"
-                              ? Text(_formatDate(
-                                  addExValue.employmentToDate[index]))
+                              ? Text(
+                                  _formatDate(addExValue.trainingToDate[index]))
                               : value.toDate != null
                                   ? Text(_formatDate(value.toDate!))
                                   : const Text('To'),

@@ -17,10 +17,26 @@ class Step1 extends StatelessWidget {
 
     return Column(
       children: [
-        CustomTextField(controller: nameController, labelText: "Name"),
-        CustomTextField(controller: phoneController, labelText: "Phone"),
-        CustomTextField(controller: emailController, labelText: "Email"),
-        CustomTextField(controller: messageController, labelText: "Address"),
+        CustomTextField(
+          controller: nameController,
+          labelText: "Name",
+          maxLines: 1,
+        ),
+        CustomTextField(
+          controller: phoneController,
+          labelText: "Phone",
+          maxLines: 1,
+        ),
+        CustomTextField(
+          controller: emailController,
+          labelText: "Email",
+          maxLines: 1,
+        ),
+        CustomTextField(
+          controller: messageController,
+          labelText: "Address",
+          maxLines: 3,
+        ),
         const Card(
           color: Colors.greenAccent,
           child: Padding(

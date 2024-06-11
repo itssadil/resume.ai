@@ -5,11 +5,13 @@ class CustomTextField extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.labelText,
+    required this.maxLines,
     this.onChanged,
   }) : super(key: key);
 
   final controller;
   final labelText;
+  final int maxLines;
   void Function(String value)? onChanged;
 
   @override
@@ -30,6 +32,7 @@ class CustomTextField extends StatelessWidget {
           fillColor: Colors.grey.shade200,
           filled: true,
         ),
+        maxLines: maxLines,
         onChanged: onChanged,
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class StepperProvider with ChangeNotifier {
+class AdditionalStepperProvider with ChangeNotifier {
   int _currentStep = 0;
   int get currentStep => _currentStep;
 

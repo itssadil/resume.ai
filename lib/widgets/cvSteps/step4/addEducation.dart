@@ -61,9 +61,15 @@ class AddEducation extends StatelessWidget {
     return Column(
       children: [
         CustomTextField(
-            controller: studyTitleController, labelText: "Course Title"),
+          controller: studyTitleController,
+          labelText: "Course Title",
+          maxLines: 1,
+        ),
         CustomTextField(
-            controller: universityNameController, labelText: "University Name"),
+          controller: universityNameController,
+          labelText: "University Name",
+          maxLines: 1,
+        ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Align(

@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addEducationProvider.dart';
 import 'package:resumeai/providers/addExperienceProvider.dart';
+import 'package:resumeai/providers/addLanguageProvider.dart';
+import 'package:resumeai/providers/addProjectProvider.dart';
+import 'package:resumeai/providers/addReferenceProvider.dart';
 import 'package:resumeai/providers/addTrainingProvider.dart';
+import 'package:resumeai/providers/additionalStepperProvider.dart';
 import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
@@ -17,6 +21,10 @@ void main() {
       ChangeNotifierProvider(create: (context) => AddExperienceProvider()),
       ChangeNotifierProvider(create: (context) => AddEducationProvider()),
       ChangeNotifierProvider(create: (context) => AddTrainingProvider()),
+      ChangeNotifierProvider(create: (context) => AdditionalStepperProvider()),
+      ChangeNotifierProvider(create: (context) => AddLanguageProvider()),
+      ChangeNotifierProvider(create: (context) => AddReferenceProvider()),
+      ChangeNotifierProvider(create: (context) => AddProjectProvider()),
     ],
     child: const MyApp(),
   ));
