@@ -104,7 +104,7 @@ class _CvFormState extends State<CvForm> {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.black,
                                     ),
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.add_box,
                                       color: Colors.white,
                                     ),
