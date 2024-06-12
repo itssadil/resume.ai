@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 class ProfileLinkProvider with ChangeNotifier {
   List<TextEditingController> _controllers =
       List.generate(1, (index) => TextEditingController());
-  List<TextEditingController> get controllers => _controllers;
+  List<TextEditingController> get urlControllers => _controllers;
 
   List<TextEditingController> _controllersName =
       List.generate(1, (index) => TextEditingController());
-  List<TextEditingController> get controllersName => _controllersName;
+  List<TextEditingController> get urlNameControllers => _controllersName;
 
   void addProfile() {
     _controllers.add(TextEditingController());

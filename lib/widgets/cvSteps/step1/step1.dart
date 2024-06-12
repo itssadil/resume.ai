@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/widgets/addBtn.dart';
 import 'package:resumeai/widgets/addOption.dart';
+import 'package:resumeai/widgets/controllers.dart';
 import 'package:resumeai/widgets/customTextField.dart';
 
 class Step1 extends StatelessWidget {
@@ -10,30 +11,25 @@ class Step1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController phoneController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController messageController = TextEditingController();
-
     return Column(
       children: [
         CustomTextField(
-          controller: nameController,
+          controller: TextControllers.nameController,
           labelText: "Name",
           maxLines: 1,
         ),
         CustomTextField(
-          controller: phoneController,
+          controller: TextControllers.phoneController,
           labelText: "Phone",
           maxLines: 1,
         ),
         CustomTextField(
-          controller: emailController,
+          controller: TextControllers.emailController,
           labelText: "Email",
           maxLines: 1,
         ),
         CustomTextField(
-          controller: messageController,
+          controller: TextControllers.messageController,
           labelText: "Address",
           maxLines: 3,
         ),
@@ -53,10 +49,11 @@ class Step1 extends StatelessWidget {
         ),
         Consumer<ProfileLinkProvider>(builder: (context, value, child) {
           return AddOption(
-            itemCount:
-                value.controllers.length < 4 ? value.controllers.length : 4,
-            urlControllers: value.controllers,
-            urlNameControllers: value.controllersName,
+            itemCount: value.urlControllers.length < 4
+                ? value.urlControllers.length
+                : 4,
+            urlControllers: value.urlControllers,
+            urlNameControllers: value.urlNameControllers,
             whoIs: "step1",
           );
         }),
@@ -64,18 +61,18 @@ class Step1 extends StatelessWidget {
           builder: (context, currentProfile, child) {
             return Visibility(
               // visible: currentProfile.currentProfile != 4 ? true : false,
-              visible: currentProfile.controllers.length >= 4 ? false : true,
+              visible: currentProfile.urlControllers.length >= 4 ? false : true,
               child: CustomAddButton(
                 onPressed: () {
-                  for (var item in currentProfile.controllers) {
+                  for (var item in currentProfile.urlControllers) {
                     print(item.text);
                   }
-                  for (var item in currentProfile.controllersName) {
+                  for (var item in currentProfile.urlNameControllers) {
                     print(item.text);
                   }
                   currentProfile.addProfile();
                 },
-                title: "Add Link ${currentProfile.controllers.length}/4",
+                title: "Add Link ${currentProfile.urlControllers.length}/4",
               ),
             );
           },

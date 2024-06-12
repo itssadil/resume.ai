@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:resumeai/consts.dart';
 import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
+import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
 import 'package:resumeai/widgets/cvSteps/AdditionalSteps/step1/step1.dart';
 import 'package:resumeai/widgets/cvSteps/additionalSteps/step2.dart';
@@ -80,7 +81,22 @@ class _CvFormState extends State<CvForm> {
                             child: Row(
                               children: [
                                 ElevatedButton(
-                                  onPressed: () => details.onStepContinue!(),
+                                  onPressed: () {
+                                    if (isLastStep) {
+                                      final printProfileLink =
+                                          Provider.of<ProfileLinkProvider>(
+                                              context,
+                                              listen: false);
+
+                                      for (var item
+                                          in printProfileLink.urlControllers) {
+                                        item.text.isNotEmpty
+                                            ? print(item.text)
+                                            : print("Empty!");
+                                      }
+                                    }
+                                    details.onStepContinue!();
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.green,
                                   ),

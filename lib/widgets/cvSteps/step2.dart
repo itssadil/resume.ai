@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resumeai/widgets/controllers.dart';
 import 'package:resumeai/widgets/customTextField.dart';
 
 class Step2 extends StatelessWidget {
@@ -6,7 +7,6 @@ class Step2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController skillsController = TextEditingController();
     return Column(
       children: [
         const Card(
@@ -24,7 +24,7 @@ class Step2 extends StatelessWidget {
           ),
         ),
         CustomTextField(
-          controller: skillsController,
+          controller: TextControllers.skillsController,
           labelText: "skills(ex: Flutter, Dart, Github, Firebase, sqLite)",
           maxLines: 1,
         ),
