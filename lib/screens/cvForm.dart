@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/consts.dart';
+import 'package:resumeai/providers/addEducationProvider.dart';
+import 'package:resumeai/providers/addExperienceProvider.dart';
 import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
@@ -15,6 +17,7 @@ import 'package:resumeai/widgets/cvSteps/step1/step1.dart';
 import 'package:resumeai/widgets/cvSteps/step2.dart';
 import 'package:resumeai/widgets/cvSteps/step3/step3.dart';
 import 'package:resumeai/widgets/cvSteps/step4/step4.dart';
+import 'package:resumeai/widgets/dateFormatter.dart';
 
 class CvForm extends StatefulWidget {
   const CvForm({Key? key}) : super(key: key);
@@ -64,20 +67,72 @@ class _CvFormState extends State<CvForm> {
     // For step2 controllers
     String skills = TextControllers.skillsController.text;
 
+    // For step2 controllers
+    final addExperienceControllers =
+        Provider.of<AddExperienceProvider>(context, listen: false);
+
+    // For step4 controllers
+    final addEducationControllers =
+        Provider.of<AddEducationProvider>(context, listen: false);
+
     if (isLastStep) {
       int index = 0;
+      int exIndex = 0;
+      int edIndex = 0;
       String itemFinal = "";
+      String exItemFinal = "";
+      String edItemFinal = "";
       String dividerColon = ":";
-      for (var ProfileLinkItem in printProfileLink.urlControllers) {
+
+      //For step1.dart
+      for (var profileLinkItem in printProfileLink.urlControllers) {
         dividerColon = printProfileLink.urlNameControllers[index].text != ""
             ? dividerColon
             : "";
         itemFinal =
-            "$itemFinal\n ${printProfileLink.urlNameControllers[index].text}$dividerColon ${ProfileLinkItem.text}";
+            "$itemFinal\n ${printProfileLink.urlNameControllers[index].text}$dividerColon ${profileLinkItem.text}";
         index++;
       }
+
+      //For step3.dart
+      for (var addExItem in addExperienceControllers.jobTitleController) {
+        String companyName =
+            addExperienceControllers.companyNameController[exIndex].text;
+        String location =
+            addExperienceControllers.locationController[exIndex].text;
+
+        String fromDate = addExperienceControllers.employmentFromDate.isNotEmpty
+            ? formatDate(addExperienceControllers.employmentFromDate[exIndex] ??
+                DateTime(3030))
+            : "";
+
+        String toDate = addExperienceControllers.employmentToDate.isNotEmpty
+            ? formatDate(addExperienceControllers.employmentToDate[exIndex] ??
+                DateTime(3030))
+            : "";
+
+        exItemFinal =
+            "$exItemFinal\n\n\n ${addExItem.text}\n $companyName\n $location\n From: $fromDate To: $toDate";
+        print(
+            "$exIndex : ${addExperienceControllers.employmentFromDate.length}");
+        exIndex++;
+      }
+
+      //For step4.dart
+      for (var addEdItem in addEducationControllers.studyTitleController) {
+        String subject =
+            addEducationControllers.universityNameController[edIndex].text;
+
+        String graduateDate = addEducationControllers.studyFromDate.isNotEmpty
+            ? formatDate(addEducationControllers.studyFromDate[edIndex])
+            : "";
+
+        edItemFinal =
+            "$edItemFinal\n\n\n ${addEdItem.text}\n $subject\n Graduate: $graduateDate";
+        edIndex++;
+      }
       print(
-          "name: $name phone: $phone email: $email address: $address Portfolio [ $itemFinal ] Skills: $skills");
+          "name: $name\n phone: $phone\n email: $email\n address: $address\n Portfolio [ $itemFinal ]\n Skills: $skills\n $exItemFinal\n $edItemFinal");
     }
     details.onStepContinue!();
   }

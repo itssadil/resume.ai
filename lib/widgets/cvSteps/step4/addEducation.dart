@@ -31,12 +31,12 @@ class AddEducation extends StatelessWidget {
         final employmentDateProvider =
             Provider.of<EmploymentDateProvider>(context, listen: false);
 
-        // final addEducationProvider =
-        //     Provider.of<AddEducationProvider>(context, listen: false);
-        //
-        // isFromDate
-        //     ? addEducationProvider.addFromTime(pickedDate)
-        //     : addEducationProvider.addToTime(pickedDate);
+        final addEducationProvider =
+            Provider.of<AddEducationProvider>(context, listen: false);
+
+        isFromDate
+            ? addEducationProvider.addFromTime(pickedDate)
+            : addEducationProvider.addToTime(pickedDate);
 
         employmentDateProvider.changeDate(isFromDate, pickedDate);
 

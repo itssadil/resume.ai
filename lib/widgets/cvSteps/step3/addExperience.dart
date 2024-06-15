@@ -33,12 +33,12 @@ class AddExperience extends StatelessWidget {
         final employmentDateProvider =
             Provider.of<EmploymentDateProvider>(context, listen: false);
 
-        // final addExperienceProvider =
-        //     Provider.of<AddExperienceProvider>(context, listen: false);
-        //
-        // isFromDate
-        //     ? addExperienceProvider.addFromTime(pickedDate)
-        //     : addExperienceProvider.addToTime(pickedDate);
+        final addExperienceProvider =
+            Provider.of<AddExperienceProvider>(context, listen: false);
+
+        isFromDate
+            ? addExperienceProvider.addFromTime(pickedDate)
+            : addExperienceProvider.addToTime(pickedDate);
 
         employmentDateProvider.changeDate(isFromDate, pickedDate);
 
@@ -49,7 +49,7 @@ class AddExperience extends StatelessWidget {
       }
     }
 
-    String _formatDate(DateTime date) {
+    String formatDate(DateTime date) {
       // Extract year, month, and day as strings
       final year = date.year.toString();
       final month =
@@ -101,13 +101,13 @@ class AddExperience extends StatelessWidget {
                           child: addExValue.employmentFromDate.length >=
                                       index + 1 &&
                                   addExValue.employmentFromDate.isNotEmpty &&
-                                  _formatDate(addExValue
+                                  formatDate(addExValue
                                           .employmentFromDate[index]) !=
                                       "01-01-3030"
-                              ? Text(_formatDate(
+                              ? Text(formatDate(
                                   addExValue.employmentFromDate[index]))
                               : value.fromDate != null
-                                  ? Text(_formatDate(value.fromDate!))
+                                  ? Text(formatDate(value.fromDate!))
                                   : const Text('From'),
                         ),
                         SizedBox(width: 10),
@@ -116,13 +116,13 @@ class AddExperience extends StatelessWidget {
                           child: addExValue.employmentToDate.length >=
                                       index + 1 &&
                                   addExValue.employmentToDate.isNotEmpty &&
-                                  _formatDate(
+                                  formatDate(
                                           addExValue.employmentToDate[index]) !=
                                       "01-01-3030"
-                              ? Text(_formatDate(
+                              ? Text(formatDate(
                                   addExValue.employmentToDate[index]))
                               : value.toDate != null
-                                  ? Text(_formatDate(value.toDate!))
+                                  ? Text(formatDate(value.toDate!))
                                   : const Text('To'),
                         ),
                       ],
