@@ -6,7 +6,7 @@ class TextControllers {
   static final TextEditingController nameController = TextEditingController();
   static final TextEditingController phoneController = TextEditingController();
   static final TextEditingController emailController = TextEditingController();
-  static final TextEditingController messageController =
+  static final TextEditingController addressController =
       TextEditingController();
 
   //For step2.dart

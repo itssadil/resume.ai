@@ -6,6 +6,7 @@ import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
+import 'package:resumeai/widgets/controllers.dart';
 import 'package:resumeai/widgets/cvSteps/AdditionalSteps/step1/step1.dart';
 import 'package:resumeai/widgets/cvSteps/additionalSteps/step2.dart';
 import 'package:resumeai/widgets/cvSteps/additionalSteps/step3/step3.dart';
@@ -47,6 +48,40 @@ class _CvFormState extends State<CvForm> {
     });
   }
 
+  void onSubmitPress(
+    bool isLastStep,
+    ControlsDetails details,
+  ) {
+    // For step1 controllers
+    String name = TextControllers.nameController.text;
+    String phone = TextControllers.phoneController.text;
+    String email = TextControllers.emailController.text;
+    String address = TextControllers.addressController.text;
+
+    final printProfileLink =
+        Provider.of<ProfileLinkProvider>(context, listen: false);
+
+    // For step2 controllers
+    String skills = TextControllers.skillsController.text;
+
+    if (isLastStep) {
+      int index = 0;
+      String itemFinal = "";
+      String dividerColon = ":";
+      for (var ProfileLinkItem in printProfileLink.urlControllers) {
+        dividerColon = printProfileLink.urlNameControllers[index].text != ""
+            ? dividerColon
+            : "";
+        itemFinal =
+            "$itemFinal\n ${printProfileLink.urlNameControllers[index].text}$dividerColon ${ProfileLinkItem.text}";
+        index++;
+      }
+      print(
+          "name: $name phone: $phone email: $email address: $address Portfolio [ $itemFinal ] Skills: $skills");
+    }
+    details.onStepContinue!();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -81,22 +116,8 @@ class _CvFormState extends State<CvForm> {
                             child: Row(
                               children: [
                                 ElevatedButton(
-                                  onPressed: () {
-                                    if (isLastStep) {
-                                      final printProfileLink =
-                                          Provider.of<ProfileLinkProvider>(
-                                              context,
-                                              listen: false);
-
-                                      for (var item
-                                          in printProfileLink.urlControllers) {
-                                        item.text.isNotEmpty
-                                            ? print(item.text)
-                                            : print("Empty!");
-                                      }
-                                    }
-                                    details.onStepContinue!();
-                                  },
+                                  onPressed: () =>
+                                      onSubmitPress(isLastStep, details),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.green,
                                   ),

@@ -29,7 +29,7 @@ class Step1 extends StatelessWidget {
           maxLines: 1,
         ),
         CustomTextField(
-          controller: TextControllers.messageController,
+          controller: TextControllers.addressController,
           labelText: "Address",
           maxLines: 3,
         ),
@@ -64,12 +64,15 @@ class Step1 extends StatelessWidget {
               visible: currentProfile.urlControllers.length >= 4 ? false : true,
               child: CustomAddButton(
                 onPressed: () {
-                  for (var item in currentProfile.urlControllers) {
-                    print(item.text);
-                  }
-                  for (var item in currentProfile.urlNameControllers) {
-                    print(item.text);
-                  }
+                  // int index = 0;
+                  // for (var item in currentProfile.urlControllers) {
+                  //   print(
+                  //       "${currentProfile.urlNameControllers[index].text}: ${item.text}");
+                  //   index++;
+                  // }
+                  // for (var item in currentProfile.urlNameControllers) {
+                  //   print(item.text);
+                  // }
                   currentProfile.addProfile();
                 },
                 title: "Add Link ${currentProfile.urlControllers.length}/4",
