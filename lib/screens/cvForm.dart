@@ -101,14 +101,16 @@ class _CvFormState extends State<CvForm> {
         String location =
             addExperienceControllers.locationController[exIndex].text;
 
-        String fromDate = addExperienceControllers.employmentFromDate.isNotEmpty
-            ? formatDate(addExperienceControllers.employmentFromDate[exIndex] ??
-                DateTime(3030))
+        String fromDate = addExperienceControllers
+                    .employmentFromDate.isNotEmpty &&
+                addExperienceControllers.employmentFromDate.length - 1 ==
+                    exIndex
+            ? formatDate(addExperienceControllers.employmentFromDate[exIndex])
             : "";
 
-        String toDate = addExperienceControllers.employmentToDate.isNotEmpty
-            ? formatDate(addExperienceControllers.employmentToDate[exIndex] ??
-                DateTime(3030))
+        String toDate = addExperienceControllers.employmentToDate.isNotEmpty &&
+                addExperienceControllers.employmentToDate.length - 1 == exIndex
+            ? formatDate(addExperienceControllers.employmentToDate[exIndex])
             : "";
 
         exItemFinal =
@@ -123,9 +125,11 @@ class _CvFormState extends State<CvForm> {
         String subject =
             addEducationControllers.universityNameController[edIndex].text;
 
-        String graduateDate = addEducationControllers.studyFromDate.isNotEmpty
-            ? formatDate(addEducationControllers.studyFromDate[edIndex])
-            : "";
+        String graduateDate =
+            addEducationControllers.studyFromDate.isNotEmpty &&
+                    addEducationControllers.studyFromDate.length - 1 == edIndex
+                ? formatDate(addEducationControllers.studyFromDate[edIndex])
+                : "";
 
         edItemFinal =
             "$edItemFinal\n\n\n ${addEdItem.text}\n $subject\n Graduate: $graduateDate";
