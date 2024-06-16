@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:provider/provider.dart';
-import 'package:resumeai/consts.dart';
 import 'package:resumeai/providers/addEducationProvider.dart';
 import 'package:resumeai/providers/addExperienceProvider.dart';
 import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
+import 'package:resumeai/screens/getPdf.dart';
 import 'package:resumeai/widgets/controllers.dart';
 import 'package:resumeai/widgets/cvSteps/AdditionalSteps/step1/step1.dart';
 import 'package:resumeai/widgets/cvSteps/additionalSteps/step2.dart';
@@ -27,29 +26,29 @@ class CvForm extends StatefulWidget {
 }
 
 class _CvFormState extends State<CvForm> {
-  final TextEditingController _userMessage = TextEditingController();
-
-  final model =
-      GenerativeModel(model: "gemini-1.5-flash-latest", apiKey: GEMINI_API_KEY);
-
-  // Note: For your API key, please create a file named consts.dart inside the lib folder and add the following line:
-  // const String GEMINI_API_KEY = "YOUR_API_KEY";
-
-  String getResponse = "";
-
-  sendMessage() async {
-    final message = _userMessage.text;
-    _userMessage.clear();
-
-    final prompt = message;
-    final content = [Content.text(prompt)];
-    final response = await model.generateContent(content);
-
-    print(response.text);
-    setState(() {
-      getResponse = response.text!;
-    });
-  }
+  // final TextEditingController _userMessage = TextEditingController();
+  //
+  // final model =
+  //     GenerativeModel(model: "gemini-1.5-flash-latest", apiKey: GEMINI_API_KEY);
+  //
+  // // Note: For your API key, please create a file named consts.dart inside the lib folder and add the following line:
+  // // const String GEMINI_API_KEY = "YOUR_API_KEY";
+  //
+  // String getResponse = "";
+  //
+  // sendMessage() async {
+  //   final message = _userMessage.text;
+  //   _userMessage.clear();
+  //
+  //   final prompt = message;
+  //   final content = [Content.text(prompt)];
+  //   final response = await model.generateContent(content);
+  //
+  //   print(response.text);
+  //   setState(() {
+  //     getResponse = response.text!;
+  //   });
+  // }
 
   void onSubmitPress(
     bool isLastStep,
@@ -135,8 +134,16 @@ class _CvFormState extends State<CvForm> {
             "$edItemFinal\n\n\n ${addEdItem.text}\n $subject\n Graduate: $graduateDate";
         edIndex++;
       }
-      print(
-          "name: $name\n phone: $phone\n email: $email\n address: $address\n Portfolio [ $itemFinal ]\n Skills: $skills\n $exItemFinal\n $edItemFinal");
+      // print(
+      // "name: $name\n phone: $phone\n email: $email\n address: $address\n Portfolio [ $itemFinal ]\n Skills: $skills\n $exItemFinal\n $edItemFinal");
+
+      String myPrompt =
+          "please make a professional cv for me, here is my details: name: $name\n phone: $phone\n email: $email\n address: $address\n Portfolio [ $itemFinal ]\n Skills: $skills\n $exItemFinal\n $edItemFinal. Please note: describe skills shortly";
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GetPdf(myPrompt: myPrompt),
+          ));
     }
     details.onStepContinue!();
   }
