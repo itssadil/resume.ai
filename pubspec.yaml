@@ -35,9 +35,27 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
+
+  #  Provider: Easy State Management
   provider: ^6.1.2
+
+  # Google's generative AI(Gemini AI) for text in Flutter apps
   google_generative_ai: ^0.4.2
+
+  # Create PDF Document
   pdf: ^3.10.8
+
+  # Save Document
+  path_provider: ^2.1.3
+
+  #  Open Pdf Document
+  open_file: ^3.3.2
+
+
+  # Enables users to launch web URLs within your Flutter application.
+  # This package is used to open links clicked by users in your app,
+  # directing them to the corresponding website in a web browser.
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:

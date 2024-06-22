@@ -10,6 +10,9 @@ class TextControllers {
       TextEditingController();
 
   //For step2.dart
-
   static final TextEditingController skillsController = TextEditingController();
+
+  //For step2.dart
+  static final TextEditingController languageController =
+      TextEditingController();
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resumeai/widgets/controllers.dart';
 import 'package:resumeai/widgets/customTextField.dart';
 
 class Step5 extends StatelessWidget {
@@ -6,7 +7,6 @@ class Step5 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController languageController = TextEditingController();
     return Column(
       children: [
         const Card(
@@ -24,7 +24,7 @@ class Step5 extends StatelessWidget {
           ),
         ),
         CustomTextField(
-          controller: languageController,
+          controller: TextControllers.languageController,
           labelText: "Language(ex: English, Bangali, Sylhety, Hindi)",
           maxLines: 1,
         ),

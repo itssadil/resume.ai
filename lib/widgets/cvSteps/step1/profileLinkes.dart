@@ -21,11 +21,11 @@ class ProfileLinks extends StatelessWidget {
               labelText: "Link(ex: https://www.linkedin.com/in/itss-adil/)",
               maxLines: 1,
             ),
-            CustomTextField(
-              controller: urlNameController,
-              labelText: "Profile Name(ex: Linkedin)",
-              maxLines: 1,
-            ),
+            // CustomTextField(
+            //   controller: urlNameController,
+            //   labelText: "Profile Name(ex: Linkedin)",
+            //   maxLines: 1,
+            // ),
           ],
         ),
       ),

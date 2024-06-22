@@ -5,5 +5,5 @@ String formatDate(DateTime date) {
       date.month.toString().padLeft(2, '0'); // Pad month with leading zero
   final day = date.day.toString().padLeft(2, '0'); // Pad day with leading zero
 
-  return '$day-$month-$year'; // Combine formatted components
+  return '$day.$month.$year'; // Combine formatted components
 }

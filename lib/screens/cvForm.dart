@@ -60,19 +60,23 @@ class _CvFormState extends State<CvForm> {
     String email = TextControllers.emailController.text;
     String address = TextControllers.addressController.text;
 
+    // For step1 controllers
     final printProfileLink =
         Provider.of<ProfileLinkProvider>(context, listen: false);
 
     // For step2 controllers
     String skills = TextControllers.skillsController.text;
 
-    // For step2 controllers
+    // For step3 controllers
     final addExperienceControllers =
         Provider.of<AddExperienceProvider>(context, listen: false);
 
     // For step4 controllers
     final addEducationControllers =
         Provider.of<AddEducationProvider>(context, listen: false);
+
+    // For additional step2 controllers
+    String language = TextControllers.languageController.text;
 
     if (isLastStep) {
       int index = 0;
@@ -134,16 +138,29 @@ class _CvFormState extends State<CvForm> {
             "$edItemFinal\n\n\n ${addEdItem.text}\n $subject\n Graduate: $graduateDate";
         edIndex++;
       }
-      // print(
-      // "name: $name\n phone: $phone\n email: $email\n address: $address\n Portfolio [ $itemFinal ]\n Skills: $skills\n $exItemFinal\n $edItemFinal");
 
       String myPrompt =
-          "please make a professional cv for me, here is my details: name: $name\n phone: $phone\n email: $email\n address: $address\n Portfolio [ $itemFinal ]\n Skills: $skills\n $exItemFinal\n $edItemFinal. Please note: describe skills shortly";
+          "name: $name\n Skills: $skills\n $exItemFinal\n $edItemFinal";
+      //
+      // String myPrompt =
+      //     "please make a description for me, here is my details: name: $name\n Skills: $skills\n $exItemFinal\n $edItemFinal. Please note:[1. do not suggest me anything (like; title, subtitle etc), just write description in a paragraph. 2. Aim for  description between 50-70 words or 5-7 Bullet Points. 3. no need to use my name 4. no need to bold, italic, underline etc.]";
+
+      // String myPrompt =
+      //     "please make a cv description for me, here is my details: name: $name\n phone: $phone\n email: $email\n address: $address\n Portfolio [ $itemFinal ]\n Skills: $skills\n $exItemFinal\n $edItemFinal. Please note: Aim for cv description between 50-70 words or 5-7 Bullet Points";
       Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => GetPdf(myPrompt: myPrompt),
-          ));
+        context,
+        MaterialPageRoute(
+          builder: (context) => GetPdf(
+            name: name,
+            email: email,
+            phone: phone,
+            address: address,
+            skills: skills,
+            language: language,
+            myPrompt: myPrompt,
+          ),
+        ),
+      );
     }
     details.onStepContinue!();
   }
@@ -258,7 +275,8 @@ class _CvFormState extends State<CvForm> {
                             child: Row(
                               children: [
                                 ElevatedButton(
-                                  onPressed: () => details.onStepContinue!(),
+                                  onPressed: () =>
+                                      onSubmitPress(isLastStep, details),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.green,
                                   ),
