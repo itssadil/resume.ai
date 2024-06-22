@@ -409,6 +409,8 @@ class _GetPdfState extends State<GetPdf> {
                         sideBarText(
                           text: value.trainingTitleController[index].text,
                           letterSpacing: 1.5,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey.shade800,
                         ),
                         const Divider(
                           thickness: 0.1,
@@ -471,6 +473,8 @@ class _GetPdfState extends State<GetPdf> {
                         sideBarText(
                           text: value.projectTitleController[index].text,
                           letterSpacing: 1.5,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey.shade800,
                         ),
                         const Divider(
                           thickness: 0.1,
@@ -605,7 +609,9 @@ class _GetPdfState extends State<GetPdf> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                sideBarText(text: value.referenceController[index].text),
+                sideBarText(
+                    text: value.referenceController[index].text,
+                    fontWeight: FontWeight.bold),
                 sideBarText(text: value.referenceOptionController[index].text),
               ],
             );
