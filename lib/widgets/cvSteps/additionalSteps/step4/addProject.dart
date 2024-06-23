@@ -65,9 +65,24 @@ class AddProject extends StatelessWidget {
           labelText: "Your Role",
           maxLines: 1,
         ),
+        const Card(
+          color: Colors.greenAccent,
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              "Short project description, please. We'll summarize it briefly.",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+            ),
+          ),
+        ),
         CustomTextField(
           controller: descriptionController,
-          labelText: "Description",
+          labelText:
+              "1: Measures body mass index using weight and height.\n2: Indicates if weight is under, normal, or overweight.",
           maxLines: 3,
         ),
         Padding(

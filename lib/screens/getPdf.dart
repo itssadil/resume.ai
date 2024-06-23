@@ -9,6 +9,7 @@ import 'package:resumeai/providers/addProjectProvider.dart';
 import 'package:resumeai/providers/addReferenceProvider.dart';
 import 'package:resumeai/providers/addTrainingProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
+import 'package:resumeai/widgets/appLoading.dart';
 import 'package:resumeai/widgets/dateFormatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,6 +23,8 @@ class GetPdf extends StatefulWidget {
     required this.skills,
     required this.myPrompt,
     required this.language,
+    this.myprojectTitle,
+    this.myprojectInfo,
   }) : super(key: key);
   final String name;
   final String phone;
@@ -30,6 +33,8 @@ class GetPdf extends StatefulWidget {
   final String skills;
   final String language;
   final String myPrompt;
+  String? myprojectTitle = "";
+  String? myprojectInfo = "";
 
   @override
   State<GetPdf> createState() => _GetPdfState();
@@ -94,7 +99,9 @@ class _GetPdfState extends State<GetPdf> {
             if (kIsWeb) {
               return AspectRatio(
                 aspectRatio: 3 / 3,
-                child: pdfContainer(),
+                child: getResponse != "" && getSubtitle != ""
+                    ? pdfContainer()
+                    : pdfLoading(),
               );
             }
             return Padding(
@@ -121,7 +128,7 @@ class _GetPdfState extends State<GetPdf> {
               padding: const EdgeInsets.all(5.0),
               child: Column(
                 children: [
-                  customHeader(color: secondaryColor),
+                  customHeader(color: secondaryColor, loading: false),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -196,7 +203,10 @@ class _GetPdfState extends State<GetPdf> {
     );
   }
 
-  Widget customHeader({required Color color}) {
+  Widget customHeader({
+    required Color color,
+    required bool loading,
+  }) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 5),
@@ -207,21 +217,29 @@ class _GetPdfState extends State<GetPdf> {
         ),
       ),
       padding: const EdgeInsets.all(30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 23,
+      child: loading
+          ? SizedBox(
+              height: 100,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: appLoading(),
+              ),
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23,
+                  ),
+                ),
+                Text(
+                  getSubtitle,
+                ),
+              ],
             ),
-          ),
-          Text(
-            getSubtitle,
-          ),
-        ],
-      ),
     );
   }
 
@@ -262,7 +280,7 @@ class _GetPdfState extends State<GetPdf> {
           itemCount: value.studyTitleController.length,
           itemBuilder: (context, index) {
             final String graduateDate = value.studyFromDate.isNotEmpty &&
-                    value.studyFromDate.length - 1 == index
+                    value.studyFromDate.length - 1 >= index
                 ? formatDate(value.studyFromDate[index])
                 : "";
             return Padding(
@@ -321,12 +339,12 @@ class _GetPdfState extends State<GetPdf> {
                 itemBuilder: (context, index) {
                   final String exFromDate =
                       value.employmentFromDate.isNotEmpty &&
-                              value.employmentFromDate.length - 1 == index
+                              value.employmentFromDate.length - 1 >= index
                           ? formatDate(value.employmentFromDate[index])
                           : "";
 
                   final String exToDate = value.employmentToDate.isNotEmpty &&
-                          value.employmentToDate.length - 1 == index
+                          value.employmentToDate.length - 1 >= index
                       ? formatDate(value.employmentToDate[index])
                       : "";
 
@@ -616,6 +634,75 @@ class _GetPdfState extends State<GetPdf> {
               ],
             );
           },
+        );
+      },
+    );
+  }
+
+  Widget pdfLoading() {
+    const Color secondaryColor = Colors.tealAccent;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 30),
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                children: [
+                  customHeader(color: secondaryColor, loading: true),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(50),
+                            ),
+                            color: secondaryColor,
+                          ),
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            children: [
+                              appLoading(),
+                              const SizedBox(height: 50),
+                              appLoading(),
+                              const SizedBox(height: 50),
+                              appLoading(),
+                              const SizedBox(height: 50),
+                              appLoading(),
+                              const SizedBox(height: 50),
+                              appLoading(),
+                              const SizedBox(height: 50),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            appLoading(),
+                            const SizedBox(height: 50),
+                            appLoading(),
+                            const SizedBox(height: 50),
+                            appLoading(),
+                            const SizedBox(height: 50),
+                            appLoading(),
+                            const SizedBox(height: 50),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         );
       },
     );

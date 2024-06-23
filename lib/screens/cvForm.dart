@@ -97,6 +97,18 @@ class _CvFormState extends State<CvForm> {
         index++;
       }
 
+      //For step4.dart
+      for (var addEdItem in addEducationControllers.studyTitleController) {
+        String studyTitle =
+            addEducationControllers.studyTitleController[edIndex].text;
+        String universityName =
+            addEducationControllers.universityNameController[edIndex].text;
+
+        edItemFinal =
+            "$edItemFinal\n\n\n ${addEdItem.text}\n $studyTitle\n $universityName\n";
+        edIndex++;
+      }
+
       //For step3.dart
       for (var addExItem in addExperienceControllers.jobTitleController) {
         String companyName =
@@ -123,30 +135,9 @@ class _CvFormState extends State<CvForm> {
         exIndex++;
       }
 
-      //For step4.dart
-      for (var addEdItem in addEducationControllers.studyTitleController) {
-        String subject =
-            addEducationControllers.universityNameController[edIndex].text;
-
-        String graduateDate =
-            addEducationControllers.studyFromDate.isNotEmpty &&
-                    addEducationControllers.studyFromDate.length - 1 == edIndex
-                ? formatDate(addEducationControllers.studyFromDate[edIndex])
-                : "";
-
-        edItemFinal =
-            "$edItemFinal\n\n\n ${addEdItem.text}\n $subject\n Graduate: $graduateDate";
-        edIndex++;
-      }
-
       String myPrompt =
           "name: $name\n Skills: $skills\n $exItemFinal\n $edItemFinal";
-      //
-      // String myPrompt =
-      //     "please make a description for me, here is my details: name: $name\n Skills: $skills\n $exItemFinal\n $edItemFinal. Please note:[1. do not suggest me anything (like; title, subtitle etc), just write description in a paragraph. 2. Aim for  description between 50-70 words or 5-7 Bullet Points. 3. no need to use my name 4. no need to bold, italic, underline etc.]";
 
-      // String myPrompt =
-      //     "please make a cv description for me, here is my details: name: $name\n phone: $phone\n email: $email\n address: $address\n Portfolio [ $itemFinal ]\n Skills: $skills\n $exItemFinal\n $edItemFinal. Please note: Aim for cv description between 50-70 words or 5-7 Bullet Points";
       Navigator.push(
         context,
         MaterialPageRoute(
