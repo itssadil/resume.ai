@@ -14,7 +14,7 @@ import 'package:resumeai/widgets/dateFormatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GetPdf extends StatefulWidget {
-  GetPdf({
+  const GetPdf({
     Key? key,
     required this.name,
     required this.phone,
@@ -23,8 +23,6 @@ class GetPdf extends StatefulWidget {
     required this.skills,
     required this.myPrompt,
     required this.language,
-    this.myprojectTitle,
-    this.myprojectInfo,
   }) : super(key: key);
   final String name;
   final String phone;
@@ -33,9 +31,6 @@ class GetPdf extends StatefulWidget {
   final String skills;
   final String language;
   final String myPrompt;
-  String? myprojectTitle = "";
-  String? myprojectInfo = "";
-  List<String> generatedProjectList = [];
 
   @override
   State<GetPdf> createState() => _GetPdfState();
@@ -579,18 +574,16 @@ class _GetPdfState extends State<GetPdf> {
                     if (await canLaunchUrl(
                       Uri.parse(value.urlControllers[index].text),
                     )) {
-                      print("ok");
                       await launchUrl(
                           Uri.parse(value.urlControllers[index].text));
                     } else {
-                      print("not ok");
                       throw 'Could not launch URL';
                     }
                   },
                   child: sideBarText(
                     text: value.urlControllers[index].text,
                     color: Colors.blue.shade900,
-                    textDecoration: TextDecoration.underline,
+                    // textDecoration: TextDecoration.underline,
                   ),
                 );
               },
