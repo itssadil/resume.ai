@@ -35,6 +35,7 @@ class GetPdf extends StatefulWidget {
   final String myPrompt;
   String? myprojectTitle = "";
   String? myprojectInfo = "";
+  List<String> generatedProjectList = [];
 
   @override
   State<GetPdf> createState() => _GetPdfState();
@@ -50,6 +51,7 @@ class _GetPdfState extends State<GetPdf> {
   String getResponse = "";
   String getSubtitle = "";
   String getSkills = "";
+  List<String> generatedList = [];
 
   @override
   void initState() {
@@ -58,12 +60,21 @@ class _GetPdfState extends State<GetPdf> {
   }
 
   sendMessage() async {
+    // For Description Prompt
     final description =
         "please make a description for me, here is my details: '${widget.myPrompt}'  Please note:[1. do not suggest me anything (like; title, subtitle etc), just write description in a paragraph. 2. Aim for  description between 50-70 words or 5-7 Bullet Points. 3. no need to use my name 4. no need to bold, italic, underline etc.]";
+
+    // For  Subtitle Prompt(e.g. Flutter Developer)
     final subtitle =
         "'${widget.myPrompt}' According to those qualification, please write a title which is suitable for me. note: [1. don't suggest me, just provide one title. 2. title should be no more then 3 words.]";
+
+    // For Skills Prompt
     final mySkills =
         "${widget.skills} please Brief my skills up to 5 words. note:[1. separate all skills with double new line. 2. write title, then write a colon followed by a brief description of the skills. 3.  don't suggest me anything else 4.  don't write any other words. 5. do not suggest me anything (like; title, subtitle etc)]";
+
+    // Get Project List
+    final projectProvider =
+        Provider.of<AddProjectProvider>(context, listen: false);
 
     //Generate Description
 
@@ -82,6 +93,17 @@ class _GetPdfState extends State<GetPdf> {
     final skillPrompt = mySkills;
     final skillContent = [Content.text(skillPrompt)];
     final skillResponse = await model.generateContent(skillContent);
+
+    // Generate Project
+    for (int i = 0; i < projectProvider.projectTitleController.length; i++) {
+      // For Project Description Prompt
+
+      final projectPrompt =
+          "please generate a short description for my project, project info: name: ${projectProvider.projectTitleController[i].text}, basic info: ${projectProvider.descriptionController[i].text}  Please note:[1. do not suggest me anything (like; title, subtitle etc), just write description in a paragraph. 2. Aim for  description between 25-45 words or 3-4 Bullet Points. 3. no need to bold, italic, underline etc.]";
+      final projectContent = [Content.text(projectPrompt)];
+      final projectResponse = await model.generateContent(projectContent);
+      generatedList.add("${projectResponse.text}");
+    }
 
     setState(() {
       getResponse = response.text!;
@@ -456,7 +478,7 @@ class _GetPdfState extends State<GetPdf> {
     );
   }
 
-  static Widget project() {
+  Widget project() {
     return Consumer<AddProjectProvider>(
       builder: (context, value, child) {
         return Visibility(
@@ -505,7 +527,7 @@ class _GetPdfState extends State<GetPdf> {
                         ),
                         const SizedBox(height: 3),
                         sideBarText(
-                          text: value.descriptionController[index].text,
+                          text: generatedList[index],
                           letterSpacing: 1.5,
                         ),
                         const SizedBox(height: 3),
