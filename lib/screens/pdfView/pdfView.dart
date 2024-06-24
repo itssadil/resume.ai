@@ -3,15 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/consts.dart';
-import 'package:resumeai/providers/addEducationProvider.dart';
-import 'package:resumeai/providers/addExperienceProvider.dart';
 import 'package:resumeai/providers/addProjectProvider.dart';
-import 'package:resumeai/providers/addReferenceProvider.dart';
-import 'package:resumeai/providers/addTrainingProvider.dart';
-import 'package:resumeai/providers/profileLinkProvider.dart';
-import 'package:resumeai/widgets/appLoading.dart';
-import 'package:resumeai/widgets/dateFormatter.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:resumeai/screens/pdfView/widgets/pdfBody.dart';
+import 'package:resumeai/screens/pdfView/widgets/pdfLoading.dart';
 
 class PdfView extends StatefulWidget {
   const PdfView({
@@ -117,658 +111,691 @@ class _PdfViewState extends State<PdfView> {
               return AspectRatio(
                 aspectRatio: 3 / 3,
                 child: getResponse != "" && getSubtitle != ""
-                    ? pdfContainer()
+                    ? pdfBody(
+                        name: widget.name,
+                        subtitle: getSubtitle,
+                        email: widget.email,
+                        phone: widget.phone,
+                        address: widget.address,
+                        skill: getSkills,
+                        languages: widget.language,
+                        desc: getResponse,
+                        generatedList: generatedList,
+                      )
                     : pdfLoading(),
               );
             }
             return Padding(
               padding: const EdgeInsets.all(10),
-              child: pdfContainer(),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget pdfContainer() {
-    const Color secondaryColor = Colors.tealAccent;
-    final referenceProvider =
-        Provider.of<AddReferenceProvider>(context, listen: false);
-    return SingleChildScrollView(
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 30),
-        padding: const EdgeInsets.all(5.0),
-        color: Colors.white,
-        child: Column(
-          children: [
-            customHeader(color: secondaryColor, loading: false),
-            Container(
-              color: secondaryColor,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          contact(),
-                          const SizedBox(height: 50),
-                          skills(),
-                          language(),
-                          Visibility(
-                            visible:
-                                referenceProvider.referenceController[0].text !=
-                                        ""
-                                    ? true
-                                    : false,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 50),
-                                sideBarText(
-                                  text: "Reference",
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                const Divider(),
-                                reference(),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(50),
-                        ),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          description(),
-                          const SizedBox(height: 10),
-                          customHeadLine(title: "Education"),
-                          education(),
-                          const SizedBox(height: 10),
-                          experience(),
-                          const SizedBox(height: 10),
-                          training(),
-                          const SizedBox(height: 10),
-                          project(),
-                          const SizedBox(height: 30),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget customHeader({
-    required Color color,
-    required bool loading,
-  }) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 5),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(50),
-        ),
-      ),
-      padding: const EdgeInsets.all(30),
-      child: loading
-          ? SizedBox(
-              height: 100,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: appLoading(),
-              ),
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 23,
-                  ),
-                ),
-                Text(
-                  getSubtitle,
-                ),
-              ],
-            ),
-    );
-  }
-
-  Widget description() {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Text(
-        getResponse,
-        style: TextStyle(color: Colors.grey.shade900, letterSpacing: 1.3),
-        textAlign: TextAlign.justify,
-      ),
-    );
-  }
-
-  static customHeadLine({required String title}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          sideBarText(
-            text: title,
-            fontWeight: FontWeight.bold,
-            fontSize: 15,
-          ),
-          const Divider(),
-        ],
-      ),
-    );
-  }
-
-  static Widget education() {
-    return Consumer<AddEducationProvider>(
-      builder: (context, value, child) {
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: value.studyTitleController.length,
-          itemBuilder: (context, index) {
-            final String graduateDate = value.studyFromDate.isNotEmpty &&
-                    value.studyFromDate.length - 1 >= index
-                ? formatDate(value.studyFromDate[index])
-                : "";
-            return Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  sideBarText(
-                    text: value.studyTitleController[index].text,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                    color: Colors.grey.shade800,
-                  ),
-                  const Divider(
-                    thickness: 0.1,
-                    height: 10,
-                  ),
-                  textWithLabel(
-                    label: "Institute: ",
-                    text: value.universityNameController[index].text,
-                    letterSpacing: 1.3,
-                  ),
-                  // const SizedBox(height: 3),
-                  // textWithLabel(
-                  //   label: "Department: ",
-                  //   text: "Computer Technology (CMT)",
-                  //   letterSpacing: 1.3,
-                  // ),
-                  const SizedBox(height: 3),
-                  textWithLabel(
-                    label: value.studyFromDate.isNotEmpty ? "Graduated: " : "",
-                    text: graduateDate,
-                    letterSpacing: 1.3,
-                  ),
-                ],
+              child: pdfBody(
+                name: widget.name,
+                subtitle: getSubtitle,
+                email: widget.email,
+                phone: widget.phone,
+                address: widget.address,
+                skill: getSkills,
+                languages: widget.language,
+                desc: getResponse,
+                generatedList: generatedList,
               ),
             );
           },
-        );
-      },
-    );
-  }
-
-  static Widget experience() {
-    return Consumer<AddExperienceProvider>(
-      builder: (context, value, child) {
-        return Visibility(
-          visible: value.jobTitleController[0].text != "" ? true : false,
-          child: Column(
-            children: [
-              customHeadLine(title: "Experience"),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: value.companyNameController.length,
-                itemBuilder: (context, index) {
-                  final String exFromDate =
-                      value.employmentFromDate.isNotEmpty &&
-                              value.employmentFromDate.length - 1 >= index
-                          ? formatDate(value.employmentFromDate[index])
-                          : "";
-
-                  final String exToDate = value.employmentToDate.isNotEmpty &&
-                          value.employmentToDate.length - 1 >= index
-                      ? formatDate(value.employmentToDate[index])
-                      : "";
-
-                  final String exDate = exToDate != "" && exFromDate != ""
-                      ? "$exFromDate - $exToDate"
-                      : "$exFromDate $exToDate";
-
-                  final String companyLocation =
-                      value.locationController[index].text != ""
-                          ? " (${value.locationController[index].text})"
-                          : "";
-                  return Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        textWithLabel(
-                          label: value.companyNameController[index].text,
-                          text: companyLocation,
-                          letterSpacing: 1.5,
-                        ),
-                        const Divider(
-                          thickness: 0.1,
-                          height: 10,
-                        ),
-                        textWithLabel(
-                          label: "Title: ",
-                          text: value.jobTitleController[index].text,
-                          letterSpacing: 1.3,
-                        ),
-                        const SizedBox(height: 3),
-                        sideBarText(
-                          text: exDate,
-                          letterSpacing: 1.3,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  static Widget training() {
-    return Consumer<AddTrainingProvider>(
-      builder: (context, value, child) {
-        return Visibility(
-          visible: value.trainingTitleController[0].text != "" ? true : false,
-          child: Column(
-            children: [
-              customHeadLine(title: "Training"),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: value.trainingTitleController.length,
-                itemBuilder: (context, index) {
-                  final String trFromDate = value.trainingFromDate.isNotEmpty &&
-                          value.trainingFromDate.length - 1 == index
-                      ? formatDate(value.trainingFromDate[index])
-                      : "";
-
-                  final String trToDate = value.trainingToDate.isNotEmpty &&
-                          value.trainingToDate.length - 1 == index
-                      ? formatDate(value.trainingToDate[index])
-                      : "";
-
-                  final String trDate = trToDate != "" && trFromDate != ""
-                      ? "$trFromDate - $trToDate"
-                      : "$trFromDate $trToDate";
-
-                  return Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        sideBarText(
-                          text: value.trainingTitleController[index].text,
-                          letterSpacing: 1.5,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey.shade800,
-                        ),
-                        const Divider(
-                          thickness: 0.1,
-                          height: 10,
-                        ),
-                        textWithLabel(
-                          label: "Institute: ",
-                          text: value.instituteNameController[index].text,
-                          letterSpacing: 1.3,
-                        ),
-                        const SizedBox(height: 3),
-                        sideBarText(
-                          text: trDate,
-                          letterSpacing: 1.3,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget project() {
-    return Consumer<AddProjectProvider>(
-      builder: (context, value, child) {
-        return Visibility(
-          visible: value.projectTitleController[0].text != "" ? true : false,
-          child: Column(
-            children: [
-              customHeadLine(title: "Projects"),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: value.projectTitleController.length,
-                itemBuilder: (context, index) {
-                  final String prFromDate = value.projectFromDate.isNotEmpty &&
-                          value.projectFromDate.length - 1 == index
-                      ? formatDate(value.projectFromDate[index])
-                      : "";
-
-                  final String prToDate = value.projectToDate.isNotEmpty &&
-                          value.projectToDate.length - 1 == index
-                      ? formatDate(value.projectToDate[index])
-                      : "";
-
-                  final String prDate = prToDate != "" && prFromDate != ""
-                      ? "$prFromDate - $prToDate"
-                      : "$prFromDate $prToDate";
-
-                  return Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        sideBarText(
-                          text: value.projectTitleController[index].text,
-                          letterSpacing: 1.5,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey.shade800,
-                        ),
-                        const Divider(
-                          thickness: 0.1,
-                          height: 10,
-                        ),
-                        textWithLabel(
-                          label: "Role: ",
-                          text: value.roleController[index].text,
-                          letterSpacing: 1.3,
-                        ),
-                        const SizedBox(height: 3),
-                        sideBarText(
-                          text: generatedList[index],
-                          letterSpacing: 1.5,
-                        ),
-                        const SizedBox(height: 3),
-                        sideBarText(
-                          text: prDate,
-                          letterSpacing: 1.3,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget contact() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        sideBarText(
-          text: "Contact",
-          fontWeight: FontWeight.bold,
-        ),
-        const Divider(),
-        sideBarText(
-          text: widget.email,
-        ),
-        sideBarText(
-          text: widget.phone,
-        ),
-        sideBarText(
-          text: widget.address,
-        ),
-        Consumer<ProfileLinkProvider>(
-          builder: (context, value, child) {
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: value.urlControllers.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () async {
-                    // Launch the URL in a web browser
-                    if (await canLaunchUrl(
-                      Uri.parse(value.urlControllers[index].text),
-                    )) {
-                      await launchUrl(
-                          Uri.parse(value.urlControllers[index].text));
-                    } else {
-                      throw 'Could not launch URL';
-                    }
-                  },
-                  child: sideBarText(
-                    text: value.urlControllers[index].text,
-                    color: Colors.blue.shade900,
-                    // textDecoration: TextDecoration.underline,
-                  ),
-                );
-              },
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget skills() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        sideBarText(
-          text: "Skills",
-          fontWeight: FontWeight.bold,
-        ),
-        const Divider(),
-        sideBarText(
-          text: getSkills,
-        ),
-      ],
-    );
-  }
-
-  Widget language() {
-    return Visibility(
-      visible: widget.language.isNotEmpty ? true : false,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(height: 50),
-          sideBarText(
-            text: "Language",
-            fontWeight: FontWeight.bold,
-          ),
-          const Divider(),
-          sideBarText(
-            text: widget.language,
-          ),
-        ],
-      ),
-    );
-  }
-
-  static Widget reference() {
-    return Consumer<AddReferenceProvider>(
-      builder: (context, value, child) {
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: value.referenceController.length,
-          itemBuilder: (context, index) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                sideBarText(
-                    text: value.referenceController[index].text,
-                    fontWeight: FontWeight.bold),
-                sideBarText(text: value.referenceOptionController[index].text),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget pdfLoading() {
-    const Color secondaryColor = Colors.tealAccent;
-    return SingleChildScrollView(
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 30),
-        padding: const EdgeInsets.all(5.0),
-        color: Colors.white,
-        child: Column(
-          children: [
-            customHeader(color: secondaryColor, loading: true),
-            Container(
-              color: secondaryColor,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Column(
-                        children: [
-                          appLoading(),
-                          const SizedBox(height: 50),
-                          appLoading(),
-                          const SizedBox(height: 50),
-                          appLoading(),
-                          const SizedBox(height: 50),
-                          appLoading(),
-                          const SizedBox(height: 50),
-                          appLoading(),
-                          const SizedBox(height: 50),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(50),
-                        ),
-                        color: Colors.white,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          appLoading(),
-                          const SizedBox(height: 50),
-                          appLoading(),
-                          const SizedBox(height: 50),
-                          appLoading(),
-                          const SizedBox(height: 50),
-                          appLoading(),
-                          const SizedBox(height: 50),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
         ),
       ),
     );
   }
 
-  static Widget sideBarText({
-    required String text,
-    double? fontSize = 14,
-    FontWeight? fontWeight = FontWeight.normal,
-    TextDecoration? textDecoration = TextDecoration.none,
-    double? letterSpacing = 1,
-    Color? color = Colors.black,
-  }) {
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-        decoration: textDecoration,
-        letterSpacing: letterSpacing,
-        color: color,
-      ),
-    );
-  }
+//
+// Widget pdfBody() {
+//   const Color secondaryColor = Colors.tealAccent;
+//   final referenceProvider =
+//       Provider.of<AddReferenceProvider>(context, listen: false);
+//   return SingleChildScrollView(
+//     child: Container(
+//       margin: const EdgeInsets.symmetric(vertical: 30),
+//       padding: const EdgeInsets.all(5.0),
+//       color: Colors.white,
+//       child: Column(
+//         children: [
+//           pdfHeader(
+//             color: secondaryColor,
+//             loading: false,
+//             name: widget.name,
+//             subtitle: getSubtitle,
+//           ),
+//           Container(
+//             color: secondaryColor,
+//             child: Row(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Expanded(
+//                   flex: 3,
+//                   child: Padding(
+//                     padding: const EdgeInsets.all(20),
+//                     child: Column(
+//                       children: [
+//                         contact(
+//                           email: widget.email,
+//                           phone: widget.phone,
+//                           address: widget.address,
+//                         ),
+//                         const SizedBox(height: 50),
+//                         skills(skill: getSkills),
+//                         language(language: widget.language),
+//                         Visibility(
+//                           visible:
+//                               referenceProvider.referenceController[0].text !=
+//                                       ""
+//                                   ? true
+//                                   : false,
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: [
+//                               const SizedBox(height: 50),
+//                               CustomText.sideBarText(
+//                                 text: "Reference",
+//                                 fontWeight: FontWeight.bold,
+//                               ),
+//                               const Divider(),
+//                               reference(),
+//                             ],
+//                           ),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//                 Expanded(
+//                   flex: 4,
+//                   child: Container(
+//                     decoration: const BoxDecoration(
+//                       borderRadius: BorderRadius.only(
+//                         bottomLeft: Radius.circular(50),
+//                       ),
+//                       color: Colors.white,
+//                     ),
+//                     child: Column(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: [
+//                         description(description: getResponse),
+//                         const SizedBox(height: 10),
+//                         customHeadLine(title: "Education"),
+//                         const Education(),
+//                         const SizedBox(height: 10),
+//                         const Experience(),
+//                         const SizedBox(height: 10),
+//                         const Training(),
+//                         const SizedBox(height: 10),
+//                         Project(projectInfoList: generatedList),
+//                         const SizedBox(height: 30),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
 
-  static Widget textWithLabel({
-    required String text,
-    required String label,
-    double? fontSize = 14,
-    FontWeight? fontWeight = FontWeight.normal,
-    TextDecoration? textDecoration = TextDecoration.none,
-    double? letterSpacing = 1,
-  }) {
-    return RichText(
-      text: TextSpan(children: [
-        TextSpan(
-          text: label,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.5,
-            color: Colors.grey.shade800,
-          ),
-        ),
-        TextSpan(
-          text: text,
-          style: TextStyle(
-            fontSize: fontSize,
-            fontWeight: fontWeight,
-            decoration: textDecoration,
-            letterSpacing: letterSpacing,
-          ),
-        ),
-      ]),
-    );
-  }
+//
+// Widget customHeader({
+//   required Color color,
+//   required bool loading,
+// }) {
+//   return Container(
+//     width: double.infinity,
+//     margin: const EdgeInsets.only(bottom: 5),
+//     decoration: BoxDecoration(
+//       color: color,
+//       borderRadius: const BorderRadius.only(
+//         topLeft: Radius.circular(50),
+//       ),
+//     ),
+//     padding: const EdgeInsets.all(30),
+//     child: loading
+//         ? SizedBox(
+//             height: 100,
+//             child: Align(
+//               alignment: Alignment.centerLeft,
+//               child: appLoading(),
+//             ),
+//           )
+//         : Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Text(
+//                 widget.name,
+//                 style: const TextStyle(
+//                   fontWeight: FontWeight.bold,
+//                   fontSize: 23,
+//                 ),
+//               ),
+//               Text(
+//                 getSubtitle,
+//               ),
+//             ],
+//           ),
+//   );
+// }
+//
+// Widget description() {
+//   return Padding(
+//     padding: const EdgeInsets.all(20),
+//     child: Text(
+//       getResponse,
+//       style: TextStyle(color: Colors.grey.shade900, letterSpacing: 1.3),
+//       textAlign: TextAlign.justify,
+//     ),
+//   );
+// }
+//
+// static customHeadLine({required String title}) {
+//   return Padding(
+//     padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+//     child: Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         CustomText.sideBarText(
+//           text: title,
+//           fontWeight: FontWeight.bold,
+//           fontSize: 15,
+//         ),
+//         const Divider(),
+//       ],
+//     ),
+//   );
+// }
+//
+// static Widget education() {
+//   return Consumer<AddEducationProvider>(
+//     builder: (context, value, child) {
+//       return ListView.builder(
+//         shrinkWrap: true,
+//         physics: const NeverScrollableScrollPhysics(),
+//         itemCount: value.studyTitleController.length,
+//         itemBuilder: (context, index) {
+//           final String graduateDate = value.studyFromDate.isNotEmpty &&
+//                   value.studyFromDate.length - 1 >= index
+//               ? formatDate(value.studyFromDate[index])
+//               : "";
+//           return Padding(
+//             padding: const EdgeInsets.all(20),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 CustomText.sideBarText(
+//                   text: value.studyTitleController[index].text,
+//                   fontWeight: FontWeight.bold,
+//                   letterSpacing: 1.5,
+//                   color: Colors.grey.shade800,
+//                 ),
+//                 const Divider(
+//                   thickness: 0.1,
+//                   height: 10,
+//                 ),
+//                 CustomText.textWithLabel(
+//                   label: "Institute: ",
+//                   text: value.universityNameController[index].text,
+//                   letterSpacing: 1.3,
+//                 ),
+//                 // const SizedBox(height: 3),
+//                 // CustomText.textWithLabel(
+//                 //   label: "Department: ",
+//                 //   text: "Computer Technology (CMT)",
+//                 //   letterSpacing: 1.3,
+//                 // ),
+//                 const SizedBox(height: 3),
+//                 CustomText.textWithLabel(
+//                   label: value.studyFromDate.isNotEmpty ? "Graduated: " : "",
+//                   text: graduateDate,
+//                   letterSpacing: 1.3,
+//                 ),
+//               ],
+//             ),
+//           );
+//         },
+//       );
+//     },
+//   );
+// }
+//
+// static Widget experience() {
+//   return Consumer<AddExperienceProvider>(
+//     builder: (context, value, child) {
+//       return Visibility(
+//         visible: value.jobTitleController[0].text != "" ? true : false,
+//         child: Column(
+//           children: [
+//             customHeadLine(title: "Experience"),
+//             ListView.builder(
+//               shrinkWrap: true,
+//               physics: const NeverScrollableScrollPhysics(),
+//               itemCount: value.companyNameController.length,
+//               itemBuilder: (context, index) {
+//                 final String exFromDate =
+//                     value.employmentFromDate.isNotEmpty &&
+//                             value.employmentFromDate.length - 1 >= index
+//                         ? formatDate(value.employmentFromDate[index])
+//                         : "";
+//
+//                 final String exToDate = value.employmentToDate.isNotEmpty &&
+//                         value.employmentToDate.length - 1 >= index
+//                     ? formatDate(value.employmentToDate[index])
+//                     : "";
+//
+//                 final String exDate = exToDate != "" && exFromDate != ""
+//                     ? "$exFromDate - $exToDate"
+//                     : "$exFromDate $exToDate";
+//
+//                 final String companyLocation =
+//                     value.locationController[index].text != ""
+//                         ? " (${value.locationController[index].text})"
+//                         : "";
+//                 return Padding(
+//                   padding: const EdgeInsets.all(20),
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       CustomText.textWithLabel(
+//                         label: value.companyNameController[index].text,
+//                         text: companyLocation,
+//                         letterSpacing: 1.5,
+//                       ),
+//                       const Divider(
+//                         thickness: 0.1,
+//                         height: 10,
+//                       ),
+//                       CustomText.textWithLabel(
+//                         label: "Title: ",
+//                         text: value.jobTitleController[index].text,
+//                         letterSpacing: 1.3,
+//                       ),
+//                       const SizedBox(height: 3),
+//                       CustomText.sideBarText(
+//                         text: exDate,
+//                         letterSpacing: 1.3,
+//                       ),
+//                     ],
+//                   ),
+//                 );
+//               },
+//             ),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }
+//
+// static Widget training() {
+//   return Consumer<AddTrainingProvider>(
+//     builder: (context, value, child) {
+//       return Visibility(
+//         visible: value.trainingTitleController[0].text != "" ? true : false,
+//         child: Column(
+//           children: [
+//             customHeadLine(title: "Training"),
+//             ListView.builder(
+//               shrinkWrap: true,
+//               physics: const NeverScrollableScrollPhysics(),
+//               itemCount: value.trainingTitleController.length,
+//               itemBuilder: (context, index) {
+//                 final String trFromDate = value.trainingFromDate.isNotEmpty &&
+//                         value.trainingFromDate.length - 1 == index
+//                     ? formatDate(value.trainingFromDate[index])
+//                     : "";
+//
+//                 final String trToDate = value.trainingToDate.isNotEmpty &&
+//                         value.trainingToDate.length - 1 == index
+//                     ? formatDate(value.trainingToDate[index])
+//                     : "";
+//
+//                 final String trDate = trToDate != "" && trFromDate != ""
+//                     ? "$trFromDate - $trToDate"
+//                     : "$trFromDate $trToDate";
+//
+//                 return Padding(
+//                   padding: const EdgeInsets.all(20),
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       CustomText.sideBarText(
+//                         text: value.trainingTitleController[index].text,
+//                         letterSpacing: 1.5,
+//                         fontWeight: FontWeight.bold,
+//                         color: Colors.grey.shade800,
+//                       ),
+//                       const Divider(
+//                         thickness: 0.1,
+//                         height: 10,
+//                       ),
+//                       CustomText.textWithLabel(
+//                         label: "Institute: ",
+//                         text: value.instituteNameController[index].text,
+//                         letterSpacing: 1.3,
+//                       ),
+//                       const SizedBox(height: 3),
+//                       CustomText.sideBarText(
+//                         text: trDate,
+//                         letterSpacing: 1.3,
+//                       ),
+//                     ],
+//                   ),
+//                 );
+//               },
+//             ),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }
+//
+// Widget project() {
+//   return Consumer<AddProjectProvider>(
+//     builder: (context, value, child) {
+//       return Visibility(
+//         visible: value.projectTitleController[0].text != "" ? true : false,
+//         child: Column(
+//           children: [
+//             customHeadLine(title: "Projects"),
+//             ListView.builder(
+//               shrinkWrap: true,
+//               physics: const NeverScrollableScrollPhysics(),
+//               itemCount: value.projectTitleController.length,
+//               itemBuilder: (context, index) {
+//                 final String prFromDate = value.projectFromDate.isNotEmpty &&
+//                         value.projectFromDate.length - 1 == index
+//                     ? formatDate(value.projectFromDate[index])
+//                     : "";
+//
+//                 final String prToDate = value.projectToDate.isNotEmpty &&
+//                         value.projectToDate.length - 1 == index
+//                     ? formatDate(value.projectToDate[index])
+//                     : "";
+//
+//                 final String prDate = prToDate != "" && prFromDate != ""
+//                     ? "$prFromDate - $prToDate"
+//                     : "$prFromDate $prToDate";
+//
+//                 return Padding(
+//                   padding: const EdgeInsets.all(20),
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     children: [
+//                       CustomText.sideBarText(
+//                         text: value.projectTitleController[index].text,
+//                         letterSpacing: 1.5,
+//                         fontWeight: FontWeight.bold,
+//                         color: Colors.grey.shade800,
+//                       ),
+//                       const Divider(
+//                         thickness: 0.1,
+//                         height: 10,
+//                       ),
+//                       CustomText.textWithLabel(
+//                         label: "Role: ",
+//                         text: value.roleController[index].text,
+//                         letterSpacing: 1.3,
+//                       ),
+//                       const SizedBox(height: 3),
+//                       CustomText.sideBarText(
+//                         text: generatedList[index],
+//                         letterSpacing: 1.5,
+//                       ),
+//                       const SizedBox(height: 3),
+//                       CustomText.sideBarText(
+//                         text: prDate,
+//                         letterSpacing: 1.3,
+//                       ),
+//                     ],
+//                   ),
+//                 );
+//               },
+//             ),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }
+
+//
+// Widget contact() {
+//   return Column(
+//     crossAxisAlignment: CrossAxisAlignment.start,
+//     mainAxisAlignment: MainAxisAlignment.start,
+//     children: [
+//       CustomText.sideBarText(
+//         text: "Contact",
+//         fontWeight: FontWeight.bold,
+//       ),
+//       const Divider(),
+//       CustomText.sideBarText(
+//         text: widget.email,
+//       ),
+//       CustomText.sideBarText(
+//         text: widget.phone,
+//       ),
+//       CustomText.sideBarText(
+//         text: widget.address,
+//       ),
+//       Consumer<ProfileLinkProvider>(
+//         builder: (context, value, child) {
+//           return ListView.builder(
+//             shrinkWrap: true,
+//             physics: const NeverScrollableScrollPhysics(),
+//             itemCount: value.urlControllers.length,
+//             itemBuilder: (context, index) {
+//               return InkWell(
+//                 onTap: () async {
+//                   // Launch the URL in a web browser
+//                   if (await canLaunchUrl(
+//                     Uri.parse(value.urlControllers[index].text),
+//                   )) {
+//                     await launchUrl(
+//                         Uri.parse(value.urlControllers[index].text));
+//                   } else {
+//                     throw 'Could not launch URL';
+//                   }
+//                 },
+//                 child: CustomText.sideBarText(
+//                   text: value.urlControllers[index].text,
+//                   color: Colors.blue.shade900,
+//                   // textDecoration: TextDecoration.underline,
+//                 ),
+//               );
+//             },
+//           );
+//         },
+//       ),
+//     ],
+//   );
+// }
+//
+// Widget skills() {
+//   return Column(
+//     crossAxisAlignment: CrossAxisAlignment.start,
+//     mainAxisAlignment: MainAxisAlignment.start,
+//     children: [
+//       CustomText.sideBarText(
+//         text: "Skills",
+//         fontWeight: FontWeight.bold,
+//       ),
+//       const Divider(),
+//       CustomText.sideBarText(
+//         text: getSkills,
+//       ),
+//     ],
+//   );
+// }
+//
+// Widget language() {
+//   return Visibility(
+//     visible: widget.language.isNotEmpty ? true : false,
+//     child: Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       mainAxisAlignment: MainAxisAlignment.start,
+//       children: [
+//         const SizedBox(height: 50),
+//         CustomText.sideBarText(
+//           text: "Language",
+//           fontWeight: FontWeight.bold,
+//         ),
+//         const Divider(),
+//         CustomText.sideBarText(
+//           text: widget.language,
+//         ),
+//       ],
+//     ),
+//   );
+// }
+//
+// static Widget reference() {
+//   return Consumer<AddReferenceProvider>(
+//     builder: (context, value, child) {
+//       return ListView.builder(
+//         shrinkWrap: true,
+//         physics: const NeverScrollableScrollPhysics(),
+//         itemCount: value.referenceController.length,
+//         itemBuilder: (context, index) {
+//           return Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               CustomText.sideBarText(
+//                   text: value.referenceController[index].text,
+//                   fontWeight: FontWeight.bold),
+//               CustomText.sideBarText(
+//                   text: value.referenceOptionController[index].text),
+//             ],
+//           );
+//         },
+//       );
+//     },
+//   );
+// }
+//
+// Widget pdfLoading() {
+//   const Color secondaryColor = Colors.tealAccent;
+//   return SingleChildScrollView(
+//     child: Container(
+//       margin: const EdgeInsets.symmetric(vertical: 30),
+//       padding: const EdgeInsets.all(5.0),
+//       color: Colors.white,
+//       child: Column(
+//         children: [
+//           pdfHeader(color: secondaryColor, loading: true),
+//           Container(
+//             color: secondaryColor,
+//             child: Row(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Expanded(
+//                   flex: 3,
+//                   child: Padding(
+//                     padding: const EdgeInsets.all(20),
+//                     child: Column(
+//                       children: [
+//                         appLoading(),
+//                         const SizedBox(height: 50),
+//                         appLoading(),
+//                         const SizedBox(height: 50),
+//                         appLoading(),
+//                         const SizedBox(height: 50),
+//                         appLoading(),
+//                         const SizedBox(height: 50),
+//                         appLoading(),
+//                         const SizedBox(height: 50),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//                 Expanded(
+//                   flex: 4,
+//                   child: Container(
+//                     decoration: const BoxDecoration(
+//                       borderRadius: BorderRadius.only(
+//                         bottomLeft: Radius.circular(50),
+//                       ),
+//                       color: Colors.white,
+//                     ),
+//                     child: Column(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: [
+//                         appLoading(),
+//                         const SizedBox(height: 50),
+//                         appLoading(),
+//                         const SizedBox(height: 50),
+//                         appLoading(),
+//                         const SizedBox(height: 50),
+//                         appLoading(),
+//                         const SizedBox(height: 50),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
+//
+// static Widget sideBarText({
+//   required String text,
+//   double? fontSize = 14,
+//   FontWeight? fontWeight = FontWeight.normal,
+//   TextDecoration? textDecoration = TextDecoration.none,
+//   double? letterSpacing = 1,
+//   Color? color = Colors.black,
+// }) {
+//   return Text(
+//     text,
+//     style: TextStyle(
+//       fontSize: fontSize,
+//       fontWeight: fontWeight,
+//       decoration: textDecoration,
+//       letterSpacing: letterSpacing,
+//       color: color,
+//     ),
+//   );
+// }
+//
+// static Widget textWithLabel({
+//   required String text,
+//   required String label,
+//   double? fontSize = 14,
+//   FontWeight? fontWeight = FontWeight.normal,
+//   TextDecoration? textDecoration = TextDecoration.none,
+//   double? letterSpacing = 1,
+// }) {
+//   return RichText(
+//     text: TextSpan(children: [
+//       TextSpan(
+//         text: label,
+//         style: TextStyle(
+//           fontSize: 14,
+//           fontWeight: FontWeight.bold,
+//           letterSpacing: 1.5,
+//           color: Colors.grey.shade800,
+//         ),
+//       ),
+//       TextSpan(
+//         text: text,
+//         style: TextStyle(
+//           fontSize: fontSize,
+//           fontWeight: fontWeight,
+//           decoration: textDecoration,
+//           letterSpacing: letterSpacing,
+//         ),
+//       ),
+//     ]),
+//   );
+// }
 }
