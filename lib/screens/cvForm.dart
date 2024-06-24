@@ -6,7 +6,7 @@ import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
-import 'package:resumeai/screens/getPdf.dart';
+import 'package:resumeai/screens/pdfView/pdfView.dart';
 import 'package:resumeai/widgets/controllers.dart';
 import 'package:resumeai/widgets/cvSteps/AdditionalSteps/step1/step1.dart';
 import 'package:resumeai/widgets/cvSteps/additionalSteps/step2.dart';
@@ -141,7 +141,7 @@ class _CvFormState extends State<CvForm> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => GetPdf(
+          builder: (context) => PdfView(
             name: name,
             email: email,
             phone: phone,

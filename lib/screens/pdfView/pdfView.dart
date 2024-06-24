@@ -13,8 +13,8 @@ import 'package:resumeai/widgets/appLoading.dart';
 import 'package:resumeai/widgets/dateFormatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class GetPdf extends StatefulWidget {
-  const GetPdf({
+class PdfView extends StatefulWidget {
+  const PdfView({
     Key? key,
     required this.name,
     required this.phone,
@@ -33,10 +33,10 @@ class GetPdf extends StatefulWidget {
   final String myPrompt;
 
   @override
-  State<GetPdf> createState() => _GetPdfState();
+  State<PdfView> createState() => _PdfViewState();
 }
 
-class _GetPdfState extends State<GetPdf> {
+class _PdfViewState extends State<PdfView> {
   final model =
       GenerativeModel(model: "gemini-1.5-flash-latest", apiKey: GEMINI_API_KEY);
 
@@ -133,90 +133,87 @@ class _GetPdfState extends State<GetPdf> {
 
   Widget pdfContainer() {
     const Color secondaryColor = Colors.tealAccent;
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final referenceProvider =
-            Provider.of<AddReferenceProvider>(context, listen: false);
-        return SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 30),
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
+    final referenceProvider =
+        Provider.of<AddReferenceProvider>(context, listen: false);
+    return SingleChildScrollView(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 30),
+        padding: const EdgeInsets.all(5.0),
+        color: Colors.white,
+        child: Column(
+          children: [
+            customHeader(color: secondaryColor, loading: false),
+            Container(
+              color: secondaryColor,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  customHeader(color: secondaryColor, loading: false),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(50),
-                            ),
-                            color: secondaryColor,
-                          ),
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              contact(),
-                              const SizedBox(height: 50),
-                              skills(),
-                              const SizedBox(height: 50),
-                              language(),
-                              const SizedBox(height: 50),
-                              Visibility(
-                                visible: referenceProvider
-                                            .referenceController[0].text !=
+                  Expanded(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          contact(),
+                          const SizedBox(height: 50),
+                          skills(),
+                          language(),
+                          Visibility(
+                            visible:
+                                referenceProvider.referenceController[0].text !=
                                         ""
                                     ? true
                                     : false,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    sideBarText(
-                                      text: "Reference",
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    const Divider(),
-                                    reference(),
-                                  ],
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 50),
+                                sideBarText(
+                                  text: "Reference",
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ),
-                              const SizedBox(height: 50),
-                            ],
+                                const Divider(),
+                                reference(),
+                              ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                      Expanded(
-                        flex: 4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            description(),
-                            const SizedBox(height: 10),
-                            customHeadLine(title: "Education"),
-                            education(),
-                            const SizedBox(height: 10),
-                            experience(),
-                            const SizedBox(height: 10),
-                            training(),
-                            const SizedBox(height: 10),
-                            project(),
-                            const SizedBox(height: 30),
-                          ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(50),
                         ),
+                        color: Colors.white,
                       ),
-                    ],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          description(),
+                          const SizedBox(height: 10),
+                          customHeadLine(title: "Education"),
+                          education(),
+                          const SizedBox(height: 10),
+                          experience(),
+                          const SizedBox(height: 10),
+                          training(),
+                          const SizedBox(height: 10),
+                          project(),
+                          const SizedBox(height: 30),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 
@@ -618,6 +615,7 @@ class _GetPdfState extends State<GetPdf> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          const SizedBox(height: 50),
           sideBarText(
             text: "Language",
             fontWeight: FontWeight.bold,
@@ -656,70 +654,69 @@ class _GetPdfState extends State<GetPdf> {
 
   Widget pdfLoading() {
     const Color secondaryColor = Colors.tealAccent;
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 30),
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
+    return SingleChildScrollView(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 30),
+        padding: const EdgeInsets.all(5.0),
+        color: Colors.white,
+        child: Column(
+          children: [
+            customHeader(color: secondaryColor, loading: true),
+            Container(
+              color: secondaryColor,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  customHeader(color: secondaryColor, loading: true),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(50),
-                            ),
-                            color: secondaryColor,
-                          ),
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            children: [
-                              appLoading(),
-                              const SizedBox(height: 50),
-                              appLoading(),
-                              const SizedBox(height: 50),
-                              appLoading(),
-                              const SizedBox(height: 50),
-                              appLoading(),
-                              const SizedBox(height: 50),
-                              appLoading(),
-                              const SizedBox(height: 50),
-                            ],
-                          ),
-                        ),
+                  Expanded(
+                    flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          appLoading(),
+                          const SizedBox(height: 50),
+                          appLoading(),
+                          const SizedBox(height: 50),
+                          appLoading(),
+                          const SizedBox(height: 50),
+                          appLoading(),
+                          const SizedBox(height: 50),
+                          appLoading(),
+                          const SizedBox(height: 50),
+                        ],
                       ),
-                      Expanded(
-                        flex: 4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            appLoading(),
-                            const SizedBox(height: 50),
-                            appLoading(),
-                            const SizedBox(height: 50),
-                            appLoading(),
-                            const SizedBox(height: 50),
-                            appLoading(),
-                            const SizedBox(height: 50),
-                          ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(50),
                         ),
+                        color: Colors.white,
                       ),
-                    ],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          appLoading(),
+                          const SizedBox(height: 50),
+                          appLoading(),
+                          const SizedBox(height: 50),
+                          appLoading(),
+                          const SizedBox(height: 50),
+                          appLoading(),
+                          const SizedBox(height: 50),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 
