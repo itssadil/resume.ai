@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addEducationProvider.dart';
-import 'package:resumeai/screens/pdfView/widgets/customText.dart';
 import 'package:resumeai/widgets/dateFormatter.dart';
+import 'package:resumeai/widgets/pdfView/customTexttter.dart';
 
 class Education extends StatelessWidget {
   const Education({Key? key}) : super(key: key);

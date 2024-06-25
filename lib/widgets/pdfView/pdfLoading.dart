@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:resumeai/screens/pdfView/widgets/pdfHeader.dart';
 import 'package:resumeai/widgets/appLoading.dart';
+import 'package:resumeai/widgets/pdfView/pdfHeaderng.dart';
 
 Widget pdfLoading() {
   const Color secondaryColor = Colors.tealAccent;

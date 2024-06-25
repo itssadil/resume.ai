@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addReferenceProvider.dart';
-import 'package:resumeai/screens/pdfView/widgets/contact.dart';
-import 'package:resumeai/screens/pdfView/widgets/customHeadLine.dart';
-import 'package:resumeai/screens/pdfView/widgets/customText.dart';
-import 'package:resumeai/screens/pdfView/widgets/description.dart';
-import 'package:resumeai/screens/pdfView/widgets/education.dart';
-import 'package:resumeai/screens/pdfView/widgets/experience.dart';
-import 'package:resumeai/screens/pdfView/widgets/language.dart';
-import 'package:resumeai/screens/pdfView/widgets/pdfHeader.dart';
-import 'package:resumeai/screens/pdfView/widgets/project.dart';
-import 'package:resumeai/screens/pdfView/widgets/reference.dart';
-import 'package:resumeai/screens/pdfView/widgets/skills.dart';
-import 'package:resumeai/screens/pdfView/widgets/training.dart';
+import 'package:resumeai/widgets/pdfView/contact.dart';
+import 'package:resumeai/widgets/pdfView/customHeadLine.dart';
+import 'package:resumeai/widgets/pdfView/customText.dart';
+import 'package:resumeai/widgets/pdfView/description.dart';
+import 'package:resumeai/widgets/pdfView/education.dart';
+import 'package:resumeai/widgets/pdfView/experience.dart';
+import 'package:resumeai/widgets/pdfView/language.dart';
+import 'package:resumeai/widgets/pdfView/pdfHeader.dart';
+import 'package:resumeai/widgets/pdfView/project.dart';
+import 'package:resumeai/widgets/pdfView/reference.dart';
+import 'package:resumeai/widgets/pdfView/skills.dart';
+import 'package:resumeai/widgets/pdfView/training.dart';
 
 class pdfBody extends StatelessWidget {
   pdfBody({

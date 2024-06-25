@@ -4,8 +4,8 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/consts.dart';
 import 'package:resumeai/providers/addProjectProvider.dart';
-import 'package:resumeai/screens/pdfView/widgets/pdfBody.dart';
-import 'package:resumeai/screens/pdfView/widgets/pdfLoading.dart';
+import 'package:resumeai/widgets/pdfView/pdfBody.dart';
+import 'package:resumeai/widgets/pdfView/pdfLoading.dart';
 
 class PdfView extends StatefulWidget {
   const PdfView({

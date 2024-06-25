@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addProjectProvider.dart';
-import 'package:resumeai/screens/pdfView/widgets/customHeadLine.dart';
-import 'package:resumeai/screens/pdfView/widgets/customText.dart';
 import 'package:resumeai/widgets/dateFormatter.dart';
+import 'package:resumeai/widgets/pdfView/customHeadLine.dart';
+import 'package:resumeai/widgets/pdfView/customTextatter.dart';
 
 class Project extends StatelessWidget {
   Project({Key? key, required this.projectInfoList}) : super(key: key);

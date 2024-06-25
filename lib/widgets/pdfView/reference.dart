@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addReferenceProvider.dart';
-import 'package:resumeai/screens/pdfView/widgets/customText.dart';
+import 'package:resumeai/widgets/pdfView/customText.dart';
 
 Widget reference() {
   return Consumer<AddReferenceProvider>(

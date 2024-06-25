@@ -6,7 +6,7 @@ import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
-import 'package:resumeai/screens/pdfView/pdfView.dart';
+import 'package:resumeai/screens/pdfView.dart';
 import 'package:resumeai/widgets/controllers.dart';
 import 'package:resumeai/widgets/cvSteps/AdditionalSteps/step1/step1.dart';
 import 'package:resumeai/widgets/cvSteps/additionalSteps/step2.dart';
