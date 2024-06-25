@@ -235,6 +235,8 @@ class _CvFormState extends State<CvForm> {
                 );
               },
             ),
+
+            // Additional Steps
             Consumer<AdditionalOptionProvider>(
               builder: (context, value, child) {
                 return Visibility(
@@ -277,11 +279,20 @@ class _CvFormState extends State<CvForm> {
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                if (value.currentStep != 0)
-                                  ElevatedButton(
-                                    onPressed: details.onStepCancel,
-                                    child: const Text("Back"),
-                                  ),
+                                // if (value.currentStep != 0)
+                                ElevatedButton(
+                                  onPressed: value.currentStep != 0
+                                      ? details.onStepCancel
+                                      : () {
+                                          final isAddValue = Provider.of<
+                                                  AdditionalOptionProvider>(
+                                              context,
+                                              listen: false);
+                                          isAddValue
+                                              .isAdd(!isAddValue.isAddValue);
+                                        },
+                                  child: const Text("Back"),
+                                ),
                               ],
                             ),
                           );
