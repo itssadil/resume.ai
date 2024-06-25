@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addProjectProvider.dart';
 import 'package:resumeai/widgets/customTextField.dart';
+import 'package:resumeai/widgets/dateFormatter.dart';
 
 class AddProject extends StatelessWidget {
   AddProject({
@@ -41,17 +42,6 @@ class AddProject extends StatelessWidget {
         // User canceled the picker
         return null;
       }
-    }
-
-    String _formatDate(DateTime date) {
-      // Extract year, month, and day as strings
-      final year = date.year.toString();
-      final month =
-          date.month.toString().padLeft(2, '0'); // Pad month with leading zero
-      final day =
-          date.day.toString().padLeft(2, '0'); // Pad day with leading zero
-
-      return '$day-$month-$year'; // Combine formatted components
     }
 
     return Column(
@@ -107,9 +97,9 @@ class AddProject extends StatelessWidget {
                       onPressed: () => _selectDate(context, true),
                       child: addExValue.projectFromDate.length >= index + 1 &&
                               addExValue.projectFromDate.isNotEmpty &&
-                              _formatDate(addExValue.projectFromDate[index]) !=
+                              formatDate(addExValue.projectFromDate[index]) !=
                                   "01-01-3030"
-                          ? Text(_formatDate(addExValue.projectFromDate[index]))
+                          ? Text(formatDate(addExValue.projectFromDate[index]))
                           : const Text('From'),
                     ),
                     const SizedBox(width: 10),
@@ -117,9 +107,9 @@ class AddProject extends StatelessWidget {
                       onPressed: () => _selectDate(context, false),
                       child: addExValue.projectToDate.length >= index + 1 &&
                               addExValue.projectToDate.isNotEmpty &&
-                              _formatDate(addExValue.projectToDate[index]) !=
+                              formatDate(addExValue.projectToDate[index]) !=
                                   "01-01-3030"
-                          ? Text(_formatDate(addExValue.projectToDate[index]))
+                          ? Text(formatDate(addExValue.projectToDate[index]))
                           : const Text('To'),
                     ),
                   ],

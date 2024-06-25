@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addExperienceProvider.dart';
 import 'package:resumeai/widgets/customTextField.dart';
+import 'package:resumeai/widgets/dateFormatter.dart';
 
 class AddExperience extends StatelessWidget {
   AddExperience({
@@ -41,17 +42,6 @@ class AddExperience extends StatelessWidget {
         // User canceled the picker
         return null;
       }
-    }
-
-    String formatDate(DateTime date) {
-      // Extract year, month, and day as strings
-      final year = date.year.toString();
-      final month =
-          date.month.toString().padLeft(2, '0'); // Pad month with leading zero
-      final day =
-          date.day.toString().padLeft(2, '0'); // Pad day with leading zero
-
-      return '$day-$month-$year'; // Combine formatted components
     }
 
     return Column(

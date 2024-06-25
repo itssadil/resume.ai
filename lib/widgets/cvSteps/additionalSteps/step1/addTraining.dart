@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addTrainingProvider.dart';
 import 'package:resumeai/widgets/customTextField.dart';
+import 'package:resumeai/widgets/dateFormatter.dart';
 
 class AddTraining extends StatelessWidget {
   AddTraining({
@@ -41,17 +42,6 @@ class AddTraining extends StatelessWidget {
       }
     }
 
-    String _formatDate(DateTime date) {
-      // Extract year, month, and day as strings
-      final year = date.year.toString();
-      final month =
-          date.month.toString().padLeft(2, '0'); // Pad month with leading zero
-      final day =
-          date.day.toString().padLeft(2, '0'); // Pad day with leading zero
-
-      return '$day-$month-$year'; // Combine formatted components
-    }
-
     return Column(
       children: [
         CustomTextField(
@@ -85,10 +75,9 @@ class AddTraining extends StatelessWidget {
                       onPressed: () => _selectDate(context, true),
                       child: addExValue.trainingFromDate.length >= index + 1 &&
                               addExValue.trainingFromDate.isNotEmpty &&
-                              _formatDate(addExValue.trainingFromDate[index]) !=
+                              formatDate(addExValue.trainingFromDate[index]) !=
                                   "01-01-3030"
-                          ? Text(
-                              _formatDate(addExValue.trainingFromDate[index]))
+                          ? Text(formatDate(addExValue.trainingFromDate[index]))
                           : const Text('From'),
                     ),
                     SizedBox(width: 10),
@@ -96,9 +85,9 @@ class AddTraining extends StatelessWidget {
                       onPressed: () => _selectDate(context, false),
                       child: addExValue.trainingToDate.length >= index + 1 &&
                               addExValue.trainingToDate.isNotEmpty &&
-                              _formatDate(addExValue.trainingToDate[index]) !=
+                              formatDate(addExValue.trainingToDate[index]) !=
                                   "01-01-3030"
-                          ? Text(_formatDate(addExValue.trainingToDate[index]))
+                          ? Text(formatDate(addExValue.trainingToDate[index]))
                           : const Text('To'),
                     ),
                   ],

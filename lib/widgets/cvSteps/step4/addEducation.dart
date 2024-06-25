@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addEducationProvider.dart';
 import 'package:resumeai/widgets/customTextField.dart';
+import 'package:resumeai/widgets/dateFormatter.dart';
 
 class AddEducation extends StatelessWidget {
   AddEducation({
@@ -41,17 +42,6 @@ class AddEducation extends StatelessWidget {
       }
     }
 
-    String _formatDate(DateTime date) {
-      // Extract year, month, and day as strings
-      final year = date.year.toString();
-      final month =
-          date.month.toString().padLeft(2, '0'); // Pad month with leading zero
-      final day =
-          date.day.toString().padLeft(2, '0'); // Pad day with leading zero
-
-      return '$day-$month-$year'; // Combine formatted components
-    }
-
     return Column(
       children: [
         CustomTextField(
@@ -85,9 +75,9 @@ class AddEducation extends StatelessWidget {
                       onPressed: () => _selectDate(context, true),
                       child: addExValue.studyFromDate.length >= index + 1 &&
                               addExValue.studyFromDate.isNotEmpty &&
-                              _formatDate(addExValue.studyFromDate[index]) !=
+                              formatDate(addExValue.studyFromDate[index]) !=
                                   "01-01-3030"
-                          ? Text(_formatDate(addExValue.studyFromDate[index]))
+                          ? Text(formatDate(addExValue.studyFromDate[index]))
                           : const Text('Select Date'),
                     ),
                   ],
