@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addEducationProvider.dart';
-import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/widgets/customTextField.dart';
 
 class AddEducation extends StatelessWidget {
@@ -28,17 +27,12 @@ class AddEducation extends StatelessWidget {
       );
 
       if (pickedDate != null) {
-        final employmentDateProvider =
-            Provider.of<EmploymentDateProvider>(context, listen: false);
-
         final addEducationProvider =
             Provider.of<AddEducationProvider>(context, listen: false);
 
         isFromDate
             ? addEducationProvider.addFromTime(pickedDate)
             : addEducationProvider.addToTime(pickedDate);
-
-        employmentDateProvider.changeDate(isFromDate, pickedDate);
 
         return pickedDate;
       } else {
@@ -74,49 +68,29 @@ class AddEducation extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Align(
             alignment: Alignment.topLeft,
-            child: Consumer<EmploymentDateProvider>(
-              builder: (context, value, child) {
-                return Consumer<AddEducationProvider>(
-                  builder: (context, addExValue, child) {
-                    return Wrap(
-                      children: [
-                        const Text(
-                          "Graduated",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () => _selectDate(context, true),
-                          child: addExValue.studyFromDate.length >= index + 1 &&
-                                  addExValue.studyFromDate.isNotEmpty &&
-                                  _formatDate(
-                                          addExValue.studyFromDate[index]) !=
-                                      "01-01-3030"
-                              ? Text(
-                                  _formatDate(addExValue.studyFromDate[index]))
-                              : value.fromDate != null
-                                  ? Text(_formatDate(value.fromDate!))
-                                  : const Text('Select Date'),
-                        ),
-                        // SizedBox(width: 10),
-                        // ElevatedButton(
-                        //   onPressed: () => _selectDate(context, false),
-                        //   child: addExValue.studyToDate.length >= index + 1 &&
-                        //           addExValue.studyToDate.isNotEmpty &&
-                        //           _formatDate(addExValue.studyToDate[index]) !=
-                        //               "01-01-3030"
-                        //       ? Text(_formatDate(addExValue.studyToDate[index]))
-                        //       : value.toDate != null
-                        //           ? Text(_formatDate(value.toDate!))
-                        //           : const Text('To'),
-                        // ),
-                      ],
-                    );
-                  },
+            child: Consumer<AddEducationProvider>(
+              builder: (context, addExValue, child) {
+                return Wrap(
+                  children: [
+                    const Text(
+                      "Graduated",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context, true),
+                      child: addExValue.studyFromDate.length >= index + 1 &&
+                              addExValue.studyFromDate.isNotEmpty &&
+                              _formatDate(addExValue.studyFromDate[index]) !=
+                                  "01-01-3030"
+                          ? Text(_formatDate(addExValue.studyFromDate[index]))
+                          : const Text('Select Date'),
+                    ),
+                  ],
                 );
               },
             ),

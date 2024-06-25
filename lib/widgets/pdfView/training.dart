@@ -23,18 +23,21 @@ class Training extends StatelessWidget {
                 itemCount: value.trainingTitleController.length,
                 itemBuilder: (context, index) {
                   final String trFromDate = value.trainingFromDate.isNotEmpty &&
-                          value.trainingFromDate.length - 1 == index
+                          value.trainingFromDate.length - 1 >= index
                       ? formatDate(value.trainingFromDate[index])
                       : "";
 
                   final String trToDate = value.trainingToDate.isNotEmpty &&
-                          value.trainingToDate.length - 1 == index
+                          value.trainingToDate.length - 1 >= index
                       ? formatDate(value.trainingToDate[index])
                       : "";
 
                   final String trDate = trToDate != "" && trFromDate != ""
                       ? "$trFromDate - $trToDate"
                       : "$trFromDate $trToDate";
+
+                  print(
+                      "$index : ${value.trainingFromDate[index]} ${value.trainingFromDate}");
 
                   return Padding(
                     padding: const EdgeInsets.all(20),

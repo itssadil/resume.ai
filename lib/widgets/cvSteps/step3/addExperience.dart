@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addExperienceProvider.dart';
-import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/widgets/customTextField.dart';
 
 class AddExperience extends StatelessWidget {
@@ -30,17 +29,12 @@ class AddExperience extends StatelessWidget {
       );
 
       if (pickedDate != null) {
-        final employmentDateProvider =
-            Provider.of<EmploymentDateProvider>(context, listen: false);
-
         final addExperienceProvider =
             Provider.of<AddExperienceProvider>(context, listen: false);
 
         isFromDate
             ? addExperienceProvider.addFromTime(pickedDate)
             : addExperienceProvider.addToTime(pickedDate);
-
-        employmentDateProvider.changeDate(isFromDate, pickedDate);
 
         return pickedDate;
       } else {
@@ -81,53 +75,57 @@ class AddExperience extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Align(
             alignment: Alignment.topLeft,
-            child: Consumer<EmploymentDateProvider>(
-              builder: (context, value, child) {
-                return Consumer<AddExperienceProvider>(
-                  builder: (context, addExValue, child) {
-                    return Wrap(
-                      children: [
-                        const Text(
-                          "Dates of employment",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () => _selectDate(context, true),
-                          child: addExValue.employmentFromDate.length >=
-                                      index + 1 &&
-                                  addExValue.employmentFromDate.isNotEmpty &&
-                                  formatDate(addExValue
-                                          .employmentFromDate[index]) !=
-                                      "01-01-3030"
-                              ? Text(formatDate(
-                                  addExValue.employmentFromDate[index]))
-                              : value.fromDate != null
-                                  ? Text(formatDate(value.fromDate!))
-                                  : const Text('From'),
-                        ),
-                        SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () => _selectDate(context, false),
-                          child: addExValue.employmentToDate.length >=
-                                      index + 1 &&
-                                  addExValue.employmentToDate.isNotEmpty &&
-                                  formatDate(
-                                          addExValue.employmentToDate[index]) !=
-                                      "01-01-3030"
-                              ? Text(formatDate(
-                                  addExValue.employmentToDate[index]))
-                              : value.toDate != null
-                                  ? Text(formatDate(value.toDate!))
-                                  : const Text('To'),
-                        ),
-                      ],
-                    );
-                  },
+            child: Consumer<AddExperienceProvider>(
+              builder: (context, addExValue, child) {
+                return Wrap(
+                  children: [
+                    const Text(
+                      "Dates of employment",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context, true),
+                      child: addExValue.employmentFromDate.length >=
+                                  index + 1 &&
+                              addExValue.employmentFromDate.isNotEmpty &&
+                              formatDate(
+                                      addExValue.employmentFromDate[index]) !=
+                                  "01-01-3030"
+                          ? Text(
+                              formatDate(addExValue.employmentFromDate[index]))
+                          : const Text('From'),
+                    ),
+
+                    // ElevatedButton(
+                    //   onPressed: () => _selectDate(context, true),
+                    //   child: addExValue.employmentFromDate.length >=
+                    //               index + 1 &&
+                    //           addExValue.employmentFromDate.isNotEmpty &&
+                    //           formatDate(addExValue
+                    //                   .employmentFromDate[index]) !=
+                    //               "01-01-3030"
+                    //       ? Text(formatDate(
+                    //           addExValue.employmentFromDate[index]))
+                    //       : value.fromDate != null
+                    //           ? Text(formatDate(value.fromDate!))
+                    //           : const Text('From'),
+                    // ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context, false),
+                      child: addExValue.employmentToDate.length >= index + 1 &&
+                              addExValue.employmentToDate.isNotEmpty &&
+                              formatDate(addExValue.employmentToDate[index]) !=
+                                  "01-01-3030"
+                          ? Text(formatDate(addExValue.employmentToDate[index]))
+                          : const Text('To'),
+                    ),
+                  ],
                 );
               },
             ),

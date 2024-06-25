@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class EmploymentDateProvider with ChangeNotifier {
+class EmplaoymentDateProvider with ChangeNotifier {
   DateTime? _fromDate;
   DateTime? get fromDate => _fromDate;
 

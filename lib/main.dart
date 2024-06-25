@@ -7,7 +7,6 @@ import 'package:resumeai/providers/addReferenceProvider.dart';
 import 'package:resumeai/providers/addTrainingProvider.dart';
 import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
-import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
 import 'package:resumeai/screens/homeScreen.dart';
@@ -17,7 +16,6 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (context) => StepperProvider()),
       ChangeNotifierProvider(create: (context) => ProfileLinkProvider()),
-      ChangeNotifierProvider(create: (context) => EmploymentDateProvider()),
       ChangeNotifierProvider(create: (context) => AddExperienceProvider()),
       ChangeNotifierProvider(create: (context) => AddEducationProvider()),
       ChangeNotifierProvider(create: (context) => AddTrainingProvider()),

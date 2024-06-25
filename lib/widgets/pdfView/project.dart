@@ -24,12 +24,12 @@ class Project extends StatelessWidget {
                 itemCount: value.projectTitleController.length,
                 itemBuilder: (context, index) {
                   final String prFromDate = value.projectFromDate.isNotEmpty &&
-                          value.projectFromDate.length - 1 == index
+                          value.projectFromDate.length - 1 >= index
                       ? formatDate(value.projectFromDate[index])
                       : "";
 
                   final String prToDate = value.projectToDate.isNotEmpty &&
-                          value.projectToDate.length - 1 == index
+                          value.projectToDate.length - 1 >= index
                       ? formatDate(value.projectToDate[index])
                       : "";
 

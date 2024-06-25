@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addTrainingProvider.dart';
-import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/widgets/customTextField.dart';
 
 class AddTraining extends StatelessWidget {
@@ -28,17 +27,12 @@ class AddTraining extends StatelessWidget {
       );
 
       if (pickedDate != null) {
-        final employmentDateProvider =
-            Provider.of<EmploymentDateProvider>(context, listen: false);
+        final addTrainingProvider =
+            Provider.of<AddTrainingProvider>(context, listen: false);
 
-        // final addEducationProvider =
-        //     Provider.of<AddEducationProvider>(context, listen: false);
-        //
-        // isFromDate
-        //     ? addEducationProvider.addFromTime(pickedDate)
-        //     : addEducationProvider.addToTime(pickedDate);
-
-        employmentDateProvider.changeDate(isFromDate, pickedDate);
+        isFromDate
+            ? addTrainingProvider.addFromTime(pickedDate)
+            : addTrainingProvider.addToTime(pickedDate);
 
         return pickedDate;
       } else {
@@ -74,53 +68,40 @@ class AddTraining extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Align(
             alignment: Alignment.topLeft,
-            child: Consumer<EmploymentDateProvider>(
-              builder: (context, value, child) {
-                return Consumer<AddTrainingProvider>(
-                  builder: (context, addExValue, child) {
-                    return Wrap(
-                      children: [
-                        const Text(
-                          "Dates Attended",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () => _selectDate(context, true),
-                          child: addExValue.trainingFromDate.length >=
-                                      index + 1 &&
-                                  addExValue.trainingFromDate.isNotEmpty &&
-                                  _formatDate(
-                                          addExValue.trainingFromDate[index]) !=
-                                      "01-01-3030"
-                              ? Text(_formatDate(
-                                  addExValue.trainingFromDate[index]))
-                              : value.fromDate != null
-                                  ? Text(_formatDate(value.fromDate!))
-                                  : const Text('From'),
-                        ),
-                        SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () => _selectDate(context, false),
-                          child: addExValue.trainingToDate.length >=
-                                      index + 1 &&
-                                  addExValue.trainingToDate.isNotEmpty &&
-                                  _formatDate(
-                                          addExValue.trainingToDate[index]) !=
-                                      "01-01-3030"
-                              ? Text(
-                                  _formatDate(addExValue.trainingToDate[index]))
-                              : value.toDate != null
-                                  ? Text(_formatDate(value.toDate!))
-                                  : const Text('To'),
-                        ),
-                      ],
-                    );
-                  },
+            child: Consumer<AddTrainingProvider>(
+              builder: (context, addExValue, child) {
+                return Wrap(
+                  children: [
+                    const Text(
+                      "Dates Attended",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context, true),
+                      child: addExValue.trainingFromDate.length >= index + 1 &&
+                              addExValue.trainingFromDate.isNotEmpty &&
+                              _formatDate(addExValue.trainingFromDate[index]) !=
+                                  "01-01-3030"
+                          ? Text(
+                              _formatDate(addExValue.trainingFromDate[index]))
+                          : const Text('From'),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context, false),
+                      child: addExValue.trainingToDate.length >= index + 1 &&
+                              addExValue.trainingToDate.isNotEmpty &&
+                              _formatDate(addExValue.trainingToDate[index]) !=
+                                  "01-01-3030"
+                          ? Text(_formatDate(addExValue.trainingToDate[index]))
+                          : const Text('To'),
+                    ),
+                  ],
                 );
               },
             ),

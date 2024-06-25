@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addTrainingProvider.dart';
-import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/widgets/addBtn.dart';
 import 'package:resumeai/widgets/addOption.dart';
 
@@ -31,17 +30,7 @@ class _AdditionalStep1State extends State<AdditionalStep1> {
           builder: (context, value, child) {
             return CustomAddButton(
               onPressed: () {
-                for (var item in value.trainingTitleController) {
-                  print(item.text);
-                }
-
                 value.addValue();
-                final employmentDate =
-                    Provider.of<EmploymentDateProvider>(context, listen: false);
-                value.addFromTime(employmentDate.fromDate ?? DateTime(3030));
-                value.addToTime(employmentDate.toDate ?? DateTime(3030));
-
-                employmentDate.nullValue();
               },
               title: "Add Training",
             );

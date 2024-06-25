@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addProjectProvider.dart';
-import 'package:resumeai/providers/employmentDateProvider.dart';
 import 'package:resumeai/widgets/customTextField.dart';
 
 class AddProject extends StatelessWidget {
@@ -30,10 +29,12 @@ class AddProject extends StatelessWidget {
       );
 
       if (pickedDate != null) {
-        final employmentDateProvider =
-            Provider.of<EmploymentDateProvider>(context, listen: false);
+        final addProjectProvider =
+            Provider.of<AddProjectProvider>(context, listen: false);
 
-        employmentDateProvider.changeDate(isFromDate, pickedDate);
+        isFromDate
+            ? addProjectProvider.addFromTime(pickedDate)
+            : addProjectProvider.addToTime(pickedDate);
 
         return pickedDate;
       } else {
@@ -89,52 +90,39 @@ class AddProject extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Align(
             alignment: Alignment.topLeft,
-            child: Consumer<EmploymentDateProvider>(
-              builder: (context, value, child) {
-                return Consumer<AddProjectProvider>(
-                  builder: (context, addExValue, child) {
-                    return Wrap(
-                      children: [
-                        const Text(
-                          "Duration",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () => _selectDate(context, true),
-                          child: addExValue.projectFromDate.length >=
-                                      index + 1 &&
-                                  addExValue.projectFromDate.isNotEmpty &&
-                                  _formatDate(
-                                          addExValue.projectFromDate[index]) !=
-                                      "01-01-3030"
-                              ? Text(_formatDate(
-                                  addExValue.projectFromDate[index]))
-                              : value.fromDate != null
-                                  ? Text(_formatDate(value.fromDate!))
-                                  : const Text('From'),
-                        ),
-                        const SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () => _selectDate(context, false),
-                          child: addExValue.projectToDate.length >= index + 1 &&
-                                  addExValue.projectToDate.isNotEmpty &&
-                                  _formatDate(
-                                          addExValue.projectToDate[index]) !=
-                                      "01-01-3030"
-                              ? Text(
-                                  _formatDate(addExValue.projectToDate[index]))
-                              : value.toDate != null
-                                  ? Text(_formatDate(value.toDate!))
-                                  : const Text('To'),
-                        ),
-                      ],
-                    );
-                  },
+            child: Consumer<AddProjectProvider>(
+              builder: (context, addExValue, child) {
+                return Wrap(
+                  children: [
+                    const Text(
+                      "Duration",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context, true),
+                      child: addExValue.projectFromDate.length >= index + 1 &&
+                              addExValue.projectFromDate.isNotEmpty &&
+                              _formatDate(addExValue.projectFromDate[index]) !=
+                                  "01-01-3030"
+                          ? Text(_formatDate(addExValue.projectFromDate[index]))
+                          : const Text('From'),
+                    ),
+                    const SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context, false),
+                      child: addExValue.projectToDate.length >= index + 1 &&
+                              addExValue.projectToDate.isNotEmpty &&
+                              _formatDate(addExValue.projectToDate[index]) !=
+                                  "01-01-3030"
+                          ? Text(_formatDate(addExValue.projectToDate[index]))
+                          : const Text('To'),
+                    ),
+                  ],
                 );
               },
             ),
