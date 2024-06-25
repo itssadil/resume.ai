@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addTrainingProvider.dart';
 import 'package:resumeai/widgets/dateFormatter.dart';
 import 'package:resumeai/widgets/pdfView/customHeadLine.dart';
-import 'package:resumeai/widgets/pdfView/customTextatter.dart';
+import 'package:resumeai/widgets/pdfView/customText.dart';
 
 class Training extends StatelessWidget {
   const Training({Key? key}) : super(key: key);

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addExperienceProvider.dart';
 import 'package:resumeai/widgets/dateFormatter.dart';
 import 'package:resumeai/widgets/pdfView/customHeadLine.dart';
-import 'package:resumeai/widgets/pdfView/customTextatter.dart';
+import 'package:resumeai/widgets/pdfView/customText.dart';
 
 class Experience extends StatelessWidget {
   const Experience({Key? key}) : super(key: key);

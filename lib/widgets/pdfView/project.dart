@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addProjectProvider.dart';
 import 'package:resumeai/widgets/dateFormatter.dart';
 import 'package:resumeai/widgets/pdfView/customHeadLine.dart';
-import 'package:resumeai/widgets/pdfView/customTextatter.dart';
+import 'package:resumeai/widgets/pdfView/customText.dart';
 
 class Project extends StatelessWidget {
   Project({Key? key, required this.projectInfoList}) : super(key: key);
