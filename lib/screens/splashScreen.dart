@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:resumeai/screens/cvForm.dart';
 import 'package:resumeai/screens/homeScreen.dart';
 
@@ -17,11 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(
-        widget.whois == "homeScreen"
-            ? const Duration(milliseconds: 500)
-            : const Duration(seconds: 3),
-        (_) => navigateToHome(_));
+    Timer.periodic(const Duration(seconds: 3), (_) => navigateToHome(_));
   }
 
   void navigateToHome(Timer timer) {
@@ -38,12 +35,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          "resume.ai",
-          style: TextStyle(fontSize: 24),
-        ),
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: Lottie.asset("assets/json/splash.json")),
+        ],
       ),
     );
   }

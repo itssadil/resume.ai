@@ -9,7 +9,7 @@ import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
-import 'package:resumeai/screens/homeScreen.dart';
+import 'package:resumeai/screens/splashScreen.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -43,8 +43,10 @@ class MyApp extends StatelessWidget {
         ),
       ),
       title: 'resume.ai',
-      // home: const SplashScreen(),
-      home: const HomeScreen(),
+      home: const SplashScreen(
+        whois: "main",
+      ),
+      // home: const HomeScreen(),
     );
   }
 }
