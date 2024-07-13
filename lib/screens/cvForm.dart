@@ -4,6 +4,7 @@ import 'package:resumeai/providers/addEducationProvider.dart';
 import 'package:resumeai/providers/addExperienceProvider.dart';
 import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
+import 'package:resumeai/providers/errorMessageProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
 import 'package:resumeai/screens/pdfView.dart';
@@ -29,6 +30,7 @@ class _CvFormState extends State<CvForm> {
   void onSubmitPress(
     bool isLastStep,
     ControlsDetails details,
+    int currentStep,
   ) {
     // For step1 controllers
     String name = TextControllers.nameController.text;
@@ -130,7 +132,40 @@ class _CvFormState extends State<CvForm> {
       );
     }
 
-    details.onStepContinue!();
+    // Check Required Field
+    final errorMessageProvider =
+        Provider.of<ErrorMessageProvider>(context, listen: false);
+
+    switch (currentStep) {
+      case 0:
+        TextControllers.nameController.text == ""
+            ? errorMessageProvider.isName(true)
+            : errorMessageProvider.isName(false);
+        TextControllers.phoneController.text == ""
+            ? errorMessageProvider.isPhone(true)
+            : errorMessageProvider.isPhone(false);
+        TextControllers.addressController.text == ""
+            ? errorMessageProvider.isAddress(true)
+            : errorMessageProvider.isAddress(false);
+
+        if (TextControllers.nameController.text != "" &&
+            TextControllers.phoneController.text != "" &&
+            TextControllers.addressController.text != "") {
+          details.onStepContinue!();
+        }
+        break;
+      case 1:
+        TextControllers.skillsController.text == ""
+            ? errorMessageProvider.isSkills(true)
+            : errorMessageProvider.isSkills(false);
+
+        if (TextControllers.skillsController.text != "") {
+          details.onStepContinue!();
+        }
+        break;
+      default:
+        details.onStepContinue!();
+    }
   }
 
   @override
@@ -171,8 +206,8 @@ class _CvFormState extends State<CvForm> {
                               child: Row(
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () =>
-                                        onSubmitPress(isLastStep, details),
+                                    onPressed: () => onSubmitPress(
+                                        isLastStep, details, value.currentStep),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.green,
                                     ),
@@ -253,8 +288,8 @@ class _CvFormState extends State<CvForm> {
                               child: Row(
                                 children: [
                                   ElevatedButton(
-                                    onPressed: () =>
-                                        onSubmitPress(isLastStep, details),
+                                    onPressed: () => onSubmitPress(
+                                        isLastStep, details, value.currentStep),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.green,
                                     ),

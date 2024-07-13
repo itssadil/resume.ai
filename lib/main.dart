@@ -7,9 +7,10 @@ import 'package:resumeai/providers/addReferenceProvider.dart';
 import 'package:resumeai/providers/addTrainingProvider.dart';
 import 'package:resumeai/providers/additionalOptionProvider.dart';
 import 'package:resumeai/providers/additionalStepperProvider.dart';
+import 'package:resumeai/providers/errorMessageProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/providers/stepperProvider.dart';
-import 'package:resumeai/screens/splashScreen.dart';
+import 'package:resumeai/screens/cvForm.dart';
 
 void main() {
   runApp(MultiProvider(
@@ -23,6 +24,7 @@ void main() {
       ChangeNotifierProvider(create: (context) => AddReferenceProvider()),
       ChangeNotifierProvider(create: (context) => AddProjectProvider()),
       ChangeNotifierProvider(create: (context) => AdditionalOptionProvider()),
+      ChangeNotifierProvider(create: (context) => ErrorMessageProvider()),
     ],
     child: const MyApp(),
   ));
@@ -43,10 +45,10 @@ class MyApp extends StatelessWidget {
         ),
       ),
       title: 'resume.ai',
-      home: const SplashScreen(
-        whois: "main",
-      ),
-      // home: const HomeScreen(),
+      // home: const SplashScreen(
+      //   whois: "main",
+      // ),
+      home: const CvForm(),
     );
   }
 }

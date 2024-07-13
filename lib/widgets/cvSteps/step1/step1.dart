@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:resumeai/providers/errorMessageProvider.dart';
 import 'package:resumeai/providers/profileLinkProvider.dart';
 import 'package:resumeai/widgets/addBtn.dart';
 import 'package:resumeai/widgets/addOption.dart';
 import 'package:resumeai/widgets/controllers.dart';
 import 'package:resumeai/widgets/customTextField.dart';
+import 'package:resumeai/widgets/errorMessage.dart';
 
 class Step1 extends StatelessWidget {
   const Step1({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final errorMessageProvider = Provider.of<ErrorMessageProvider>(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTextField(
           controller: TextControllers.nameController,
           labelText: "Name",
           maxLines: 1,
         ),
+        errorMessage(title: 'name', isVisible: errorMessageProvider.name),
         CustomTextField(
           controller: TextControllers.phoneController,
           labelText: "Phone",
           maxLines: 1,
         ),
+        errorMessage(title: 'phone', isVisible: errorMessageProvider.phone),
         CustomTextField(
           controller: TextControllers.emailController,
           labelText: "Email",
@@ -33,6 +39,7 @@ class Step1 extends StatelessWidget {
           labelText: "Address",
           maxLines: 3,
         ),
+        errorMessage(title: 'address', isVisible: errorMessageProvider.address),
         const Card(
           color: Colors.greenAccent,
           child: Padding(
@@ -60,19 +67,9 @@ class Step1 extends StatelessWidget {
         Consumer<ProfileLinkProvider>(
           builder: (context, currentProfile, child) {
             return Visibility(
-              // visible: currentProfile.currentProfile != 4 ? true : false,
               visible: currentProfile.urlControllers.length >= 4 ? false : true,
               child: CustomAddButton(
                 onPressed: () {
-                  // int index = 0;
-                  // for (var item in currentProfile.urlControllers) {
-                  //   print(
-                  //       "${currentProfile.urlNameControllers[index].text}: ${item.text}");
-                  //   index++;
-                  // }
-                  // for (var item in currentProfile.urlNameControllers) {
-                  //   print(item.text);
-                  // }
                   currentProfile.addProfile();
                 },
                 title: "Add Link ${currentProfile.urlControllers.length}/4",

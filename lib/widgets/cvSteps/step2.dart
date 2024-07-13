@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:resumeai/providers/errorMessageProvider.dart';
 import 'package:resumeai/widgets/controllers.dart';
 import 'package:resumeai/widgets/customTextField.dart';
+import 'package:resumeai/widgets/errorMessage.dart';
 
 class Step2 extends StatelessWidget {
   const Step2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final errorMessageProvider = Provider.of<ErrorMessageProvider>(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Card(
           color: Colors.greenAccent,
@@ -28,6 +33,7 @@ class Step2 extends StatelessWidget {
           labelText: "skills(ex: Flutter, Dart, Github, Firebase, sqLite)",
           maxLines: 1,
         ),
+        errorMessage(title: 'skills', isVisible: errorMessageProvider.skills),
       ],
     );
   }
