@@ -30,7 +30,7 @@ class Step2 extends StatelessWidget {
         ),
         CustomTextField(
           controller: TextControllers.skillsController,
-          labelText: "skills(ex: Flutter, Dart, Github, Firebase, sqLite)",
+          labelText: "skills*(ex: Flutter, Dart, Github, Firebase, sqLite)",
           maxLines: 1,
         ),
         errorMessage(title: 'skills', isVisible: errorMessageProvider.skills),

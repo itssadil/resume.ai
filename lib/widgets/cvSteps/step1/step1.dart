@@ -19,13 +19,13 @@ class Step1 extends StatelessWidget {
       children: [
         CustomTextField(
           controller: TextControllers.nameController,
-          labelText: "Name",
+          labelText: "Name*",
           maxLines: 1,
         ),
         errorMessage(title: 'name', isVisible: errorMessageProvider.name),
         CustomTextField(
           controller: TextControllers.phoneController,
-          labelText: "Phone",
+          labelText: "Phone*",
           maxLines: 1,
         ),
         errorMessage(title: 'phone', isVisible: errorMessageProvider.phone),
@@ -36,7 +36,7 @@ class Step1 extends StatelessWidget {
         ),
         CustomTextField(
           controller: TextControllers.addressController,
-          labelText: "Address",
+          labelText: "Address*",
           maxLines: 3,
         ),
         errorMessage(title: 'address', isVisible: errorMessageProvider.address),
