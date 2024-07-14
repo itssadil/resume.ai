@@ -50,11 +50,11 @@ class AddEducation extends StatelessWidget {
       children: [
         CustomTextField(
           controller: studyTitleController,
-          labelText: "Course Title",
+          labelText: "Course Title*",
           maxLines: 1,
         ),
         errorMessage(
-            title: 'course title*',
+            title: 'course title',
             isVisible: errorMessageProvider.educaionTitle),
         CustomTextField(
           controller: universityNameController,
