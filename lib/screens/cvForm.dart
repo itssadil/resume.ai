@@ -56,6 +56,10 @@ class _CvFormState extends State<CvForm> {
     // For additional step2 controllers
     String language = TextControllers.languageController.text;
 
+    //errorMessageProvider
+    final errorMessageProvider =
+        Provider.of<ErrorMessageProvider>(context, listen: false);
+
     if (isLastStep) {
       int index = 0;
       int exIndex = 0;
@@ -116,26 +120,38 @@ class _CvFormState extends State<CvForm> {
       String myPrompt =
           "name: $name\n Skills: $skills\n $exItemFinal\n $edItemFinal";
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PdfView(
-            name: name,
-            email: email,
-            phone: phone,
-            address: address,
-            skills: skills,
-            language: language,
-            myPrompt: myPrompt,
+      // Check Education Required Field
+      final educationProvider =
+          Provider.of<AddEducationProvider>(context, listen: false);
+
+      educationProvider.studyTitleController[0].text == ""
+          ? errorMessageProvider.isEducaionTitle(true)
+          : errorMessageProvider.isEducaionTitle(false);
+
+      educationProvider.universityNameController[0].text == ""
+          ? errorMessageProvider.isInstitute(true)
+          : errorMessageProvider.isInstitute(false);
+
+      if (educationProvider.studyTitleController[0].text != "" &&
+          educationProvider.universityNameController[0].text != "") {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PdfView(
+              name: name,
+              email: email,
+              phone: phone,
+              address: address,
+              skills: skills,
+              language: language,
+              myPrompt: myPrompt,
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
 
     // Check Required Field
-    final errorMessageProvider =
-        Provider.of<ErrorMessageProvider>(context, listen: false);
-
     switch (currentStep) {
       case 0:
         TextControllers.nameController.text == ""

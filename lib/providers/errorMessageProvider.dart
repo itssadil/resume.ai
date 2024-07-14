@@ -9,6 +9,10 @@ class ErrorMessageProvider with ChangeNotifier {
   bool get address => _address;
   bool _skills = false;
   bool get skills => _skills;
+  bool _educaionTitle = false;
+  bool get educaionTitle => _educaionTitle;
+  bool _institute = false;
+  bool get institute => _institute;
 
   void isName(bool value) {
     _name = value;
@@ -27,6 +31,16 @@ class ErrorMessageProvider with ChangeNotifier {
 
   void isSkills(bool value) {
     _skills = value;
+    notifyListeners();
+  }
+
+  void isEducaionTitle(bool value) {
+    _educaionTitle = value;
+    notifyListeners();
+  }
+
+  void isInstitute(bool value) {
+    _institute = value;
     notifyListeners();
   }
 }

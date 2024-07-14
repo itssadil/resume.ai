@@ -29,16 +29,9 @@ class _Step3State extends State<Step3> {
         ),
         Consumer<AddExperienceProvider>(
           builder: (context, value, child) {
-            // final employmentDate =
-            //     Provider.of<EmploymentDateProvider>(context, listen: false);
             return CustomAddButton(
               onPressed: () {
                 value.addValue();
-                // value.addFromTime(employmentDate.fromDate ?? DateTime(3030));
-                // value.addToTime(employmentDate.toDate ?? DateTime(3030));
-                //
-                //
-                // employmentDate.nullValue();
               },
               title: "Add Experience",
             );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/providers/addEducationProvider.dart';
+import 'package:resumeai/providers/errorMessageProvider.dart';
 import 'package:resumeai/widgets/customTextField.dart';
 import 'package:resumeai/widgets/dateFormatter.dart';
+import 'package:resumeai/widgets/errorMessage.dart';
 
 class AddEducation extends StatelessWidget {
   AddEducation({
@@ -42,18 +44,26 @@ class AddEducation extends StatelessWidget {
       }
     }
 
+    final errorMessageProvider = Provider.of<ErrorMessageProvider>(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTextField(
           controller: studyTitleController,
           labelText: "Course Title",
           maxLines: 1,
         ),
+        errorMessage(
+            title: 'course title',
+            isVisible: errorMessageProvider.educaionTitle),
         CustomTextField(
           controller: universityNameController,
           labelText: "University Name",
           maxLines: 1,
         ),
+        errorMessage(
+            title: 'university name',
+            isVisible: errorMessageProvider.institute),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Align(
