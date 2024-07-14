@@ -107,8 +107,11 @@ class _PdfViewState extends State<PdfView> {
       appBar: AppBar(
         title: TextButton.icon(
           onPressed: () {},
-          label: const Text("Download"),
-          icon: const Icon(Icons.download),
+          label: const Text(
+            "Download",
+            style: TextStyle(color: Colors.blue),
+          ),
+          icon: const Icon(Icons.download, color: Colors.blue),
         ),
         centerTitle: true,
       ),
