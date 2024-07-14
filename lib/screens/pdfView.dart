@@ -104,6 +104,14 @@ class _PdfViewState extends State<PdfView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: TextButton.icon(
+          onPressed: () {},
+          label: const Text("Download"),
+          icon: const Icon(Icons.download),
+        ),
+        centerTitle: true,
+      ),
       body: Center(
         child: LayoutBuilder(
           builder: (context, constraints) {
