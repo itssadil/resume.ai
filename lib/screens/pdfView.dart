@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:provider/provider.dart';
 import 'package:resumeai/consts.dart';
 import 'package:resumeai/providers/addProjectProvider.dart';
+import 'package:resumeai/providers/pdfColor.dart';
 import 'package:resumeai/widgets/pdfView/pdfBody.dart';
 import 'package:resumeai/widgets/pdfView/pdfLoading.dart';
 
@@ -114,6 +116,19 @@ class _PdfViewState extends State<PdfView> {
           icon: const Icon(Icons.download, color: Colors.blue),
         ),
         centerTitle: true,
+        actions: [
+          Consumer<PdfColorProvider>(
+            builder: (context, value, child) {
+              return ElevatedButton(
+                onPressed: () => colorPalette(context),
+                child: const Text(
+                  "Change Primary Color",
+                  style: TextStyle(color: Colors.blue),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Center(
         child: LayoutBuilder(
@@ -122,7 +137,7 @@ class _PdfViewState extends State<PdfView> {
               return AspectRatio(
                 aspectRatio: 3 / 3,
                 child: getResponse != "" && getSubtitle != ""
-                    ? pdfBody(
+                    ? PdfBody(
                         name: widget.name,
                         subtitle: getSubtitle,
                         email: widget.email,
@@ -138,7 +153,7 @@ class _PdfViewState extends State<PdfView> {
             }
             return Padding(
               padding: const EdgeInsets.all(10),
-              child: pdfBody(
+              child: PdfBody(
                 name: widget.name,
                 subtitle: getSubtitle,
                 email: widget.email,
@@ -153,6 +168,41 @@ class _PdfViewState extends State<PdfView> {
           },
         ),
       ),
+    );
+  }
+
+  colorPalette(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: const Text("Pick Primary Color"),
+          children: [
+            Consumer<PdfColorProvider>(
+              builder: (context, value, child) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ColorPicker(
+                    pickerColor: value.SelectedColor,
+                    onColorChanged: (color) {
+                      value.changeColor(color);
+                    },
+                  ),
+                );
+              },
+            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: BlockPicker(
+            //     pickerColor: selectedColor,
+            //     onColorChanged: (color) => setState(() {
+            //       selectedColor = color;
+            //     }),
+            //   ),
+            // ),
+          ],
+        );
+      },
     );
   }
 }

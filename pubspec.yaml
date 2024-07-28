@@ -51,6 +51,9 @@ dependencies:
   #  Open Pdf Document
   open_file: ^3.3.2
 
+  #  Color Picker
+  flutter_colorpicker: ^1.1.0
+
 
   # Enables users to launch web URLs within your Flutter application.
   # This package is used to open links clicked by users in your app,
